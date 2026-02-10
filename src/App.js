@@ -12,6 +12,7 @@ import './styles/style.css';
 import './styles/contact.css';
 import './styles/services.css';
 import './styles/product-detail.css';
+import './styles/enhancements.css';
 function App() {
   return (
     <Router>
@@ -24,12 +25,12 @@ function App() {
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
-            
+
             {/* Redirect from old routes */}
             <Route path="/product-detail" element={<Navigate to="/products" replace />} />
             <Route path="/index.html" element={<Navigate to="/" replace />} />
             <Route path="/about" element={<Navigate to="/" replace />} />
-            
+
             {/* 404 redirect to home */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

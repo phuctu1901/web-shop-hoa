@@ -68,7 +68,7 @@ const Home = () => {
                 <span className="highlight"> vào cuộc sống</span>
               </h1>
               <p className="hero-description">
-                Khám phá bộ sưu tập hoa tươi cao cấp được tuyển chọn kỹ lưỡng, 
+                Khám phá bộ sưu tập hoa tươi cao cấp được tuyển chọn kỹ lưỡng,
                 thiết kế tinh tế cho những dịp đặc biệt trong cuộc sống của bạn.
               </p>
               <div className="hero-actions">
@@ -162,7 +162,7 @@ const Home = () => {
 
             <div className="product-card">
               <div className="product-image">
-                <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop" alt="Hoa sinh nhật" />
+                <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=400&fit=crop" alt="Hoa sinh nhật" />
                 <div className="product-overlay">
                   <Link to="/products/2" className="btn-quick-view">Xem chi tiết</Link>
                   <a href="https://zalo.me/bloomstore" className="btn-contact">Liên hệ đặt hàng</a>
@@ -178,7 +178,7 @@ const Home = () => {
 
             <div className="product-card">
               <div className="product-image">
-                <img src="https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=400&h=400&fit=crop" alt="Hoa kỷ niệm" />
+                <img src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=400&h=400&fit=crop" alt="Hoa kỷ niệm" />
                 <div className="product-overlay">
                   <Link to="/products/3" className="btn-quick-view">Xem chi tiết</Link>
                   <a href="https://zalo.me/bloomstore" className="btn-contact">Liên hệ đặt hàng</a>
@@ -268,9 +268,9 @@ const Home = () => {
               <span className="section-subtitle">Về BloomStore</span>
               <h2 className="section-title">Hành trình tạo nên những khoảnh khắc đẹp</h2>
               <p className="about-description">
-                Với hơn 10 năm kinh nghiệm trong ngành hoa tươi, BloomStore tự hào mang đến 
-                những sản phẩm hoa cao cấp và dịch vụ chuyên nghiệp nhất. Chúng tôi hiểu rằng 
-                mỗi bông hoa đều chứa đựng một thông điệp riêng, và sứ mệnh của chúng tôi là 
+                Với hơn 10 năm kinh nghiệm trong ngành hoa tươi, BloomStore tự hào mang đến
+                những sản phẩm hoa cao cấp và dịch vụ chuyên nghiệp nhất. Chúng tôi hiểu rằng
+                mỗi bông hoa đều chứa đựng một thông điệp riêng, và sứ mệnh của chúng tôi là
                 giúp bạn truyền tải những cảm xúc đó một cách hoàn hảo nhất.
               </p>
               <div className="about-features">
@@ -289,7 +289,7 @@ const Home = () => {
               </div>
             </div>
             <div className="about-image">
-              <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop" alt="Về BloomStore" />
+              <img src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=600&h=600&fit=crop" alt="Về BloomStore" />
               <div className="about-badge">
                 <span className="badge-number">10+</span>
                 <span className="badge-text">Năm kinh nghiệm</span>
@@ -317,7 +317,7 @@ const Home = () => {
                 <i className="fas fa-star"></i>
               </div>
               <p className="testimonial-text">
-                "Dịch vụ tuyệt vời! Hoa được giao đúng giờ và còn đẹp hơn cả trong hình. 
+                "Dịch vụ tuyệt vời! Hoa được giao đúng giờ và còn đẹp hơn cả trong hình.
                 Chắc chắn sẽ quay lại BloomStore cho những dịp đặc biệt khác."
               </p>
               <div className="testimonial-author">
@@ -338,7 +338,7 @@ const Home = () => {
                 <i className="fas fa-star"></i>
               </div>
               <p className="testimonial-text">
-                "BloomStore đã trang trí đám cưới của tôi thật tuyệt vời. Mọi chi tiết đều 
+                "BloomStore đã trang trí đám cưới của tôi thật tuyệt vời. Mọi chi tiết đều
                 hoàn hảo và đội ngũ rất chuyên nghiệp. Cảm ơn các bạn rất nhiều!"
               </p>
               <div className="testimonial-author">
@@ -359,7 +359,7 @@ const Home = () => {
                 <i className="fas fa-star"></i>
               </div>
               <p className="testimonial-text">
-                "Tôi đã đặt hoa online lần đầu và rất hài lòng. Website dễ sử dụng, 
+                "Tôi đã đặt hoa online lần đầu và rất hài lòng. Website dễ sử dụng,
                 hoa đẹp và giá cả hợp lý. Sẽ giới thiệu cho bạn bè!"
               </p>
               <div className="testimonial-author">

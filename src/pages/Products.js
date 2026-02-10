@@ -24,7 +24,7 @@ const Products = () => {
       name: 'Bó hoa cưới Vintage',
       category: 'wedding',
       price: 1400000,
-      image: 'https://images.unsplash.com/photo-1594736797933-d0282ba6205c?w=400&h=400&fit=crop',
+      image: 'https://images.unsplash.com/photo-1468327768560-75b778cbb551?w=400&h=400&fit=crop',
       description: 'Hoa hồng champagne và eucalyptus',
       rating: 4,
       reviews: 18
@@ -34,7 +34,7 @@ const Products = () => {
       name: 'Bó hoa sinh nhật rực rỡ',
       category: 'birthday',
       price: 800000,
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop',
+      image: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=400&fit=crop',
       description: 'Hoa hướng dương và hoa hồng cam',
       rating: 4,
       reviews: 15
@@ -44,7 +44,7 @@ const Products = () => {
       name: 'Hộp hoa kỷ niệm',
       category: 'anniversary',
       price: 1800000,
-      image: 'https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=400&h=400&fit=crop',
+      image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=400&h=400&fit=crop',
       description: 'Hoa hồng đỏ trong hộp sang trọng',
       rating: 5,
       reviews: 31,
@@ -55,7 +55,7 @@ const Products = () => {
       name: 'Bó hoa chia buồn',
       category: 'sympathy',
       price: 650000,
-      image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=400&fit=crop',
+      image: 'https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=400&h=400&fit=crop',
       description: 'Hoa lily trắng và lá dương xỉ',
       rating: 5,
       reviews: 12
@@ -65,7 +65,7 @@ const Products = () => {
       name: 'Bó hoa quà tặng',
       category: 'gift',
       price: 750000,
-      image: 'https://images.unsplash.com/photo-1487070183336-b863922373d4?w=400&h=400&fit=crop',
+      image: 'https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=400&h=400&fit=crop',
       description: 'Cẩm tú cầu xanh dương tươi mát',
       rating: 4,
       reviews: 20
@@ -81,7 +81,7 @@ const Products = () => {
     { value: 'gift', label: 'Quà tặng' }
   ];
 
-  const filteredProducts = products.filter(product => 
+  const filteredProducts = products.filter(product =>
     filter === 'all' || product.category === filter
   );
 
@@ -105,8 +105,8 @@ const Products = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       stars.push(
-        <i 
-          key={i} 
+        <i
+          key={i}
           className={i <= rating ? 'fas fa-star' : 'far fa-star'}
         ></i>
       );
@@ -145,10 +145,10 @@ const Products = () => {
                 ))}
               </div>
             </div>
-            
+
             <div className="filter-group">
               <h3>Sắp xếp theo</h3>
-              <select 
+              <select
                 className="sort-select"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}

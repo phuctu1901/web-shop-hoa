@@ -8,7 +8,7 @@ const ProductDetail = () => {
   const [activeTab, setActiveTab] = useState('description');
   const [showFullGallery, setShowFullGallery] = useState(false);
 
-  // Mở rộng dữ liệu sản phẩm chi tiết hơn
+  // Product data
   const products = {
     1: {
       id: 1,
@@ -38,7 +38,7 @@ const ProductDetail = () => {
       ],
       specifications: {
         'Kích thước': '35cm x 45cm',
-        'Chiều cao': '50-55cm', 
+        'Chiều cao': '50-55cm',
         'Trọng lượng': '1.2kg',
         'Số lượng hoa': '40 bông',
         'Nguồn gốc': 'Ecuador, New Zealand',
@@ -110,7 +110,7 @@ const ProductDetail = () => {
       category: 'birthday',
       price: 800000,
       shortDescription: 'Hoa hướng dương và hoa hồng cam',
-      longDescription: 'Bó hoa sinh nhật tràn đầy năng lượng với sự kết hợp rực rỡ giữa hoa hướng dương và hoa hồng cam. Đây là món quà hoàn hảo để thể hiện niềm vui và lời chúc tốt đẹp nhất trong ngày sinh nhật.',
+      longDescription: 'Bó hoa sinh nhật tràn đầy năng lượng với sự kết hợp rực rỡ giữa hoa hướng dương và hoa hồng cam.',
       images: [
         'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=800&fit=crop',
         'https://images.unsplash.com/photo-1487070183336-b863922373d4?w=800&h=800&fit=crop',
@@ -133,7 +133,7 @@ const ProductDetail = () => {
       category: 'anniversary',
       price: 1800000,
       shortDescription: 'Hoa hồng đỏ trong hộp sang trọng',
-      longDescription: 'Hộp hoa kỷ niệm cao cấp với thiết kế sang trọng, chứa đựng những bông hoa hồng đỏ Ecuador chọn lọc. Món quà hoàn hảo để ghi dấu những kỷ niệm đáng nhớ.',
+      longDescription: 'Hộp hoa kỷ niệm cao cấp với thiết kế sang trọng, chứa đựng những bông hoa hồng đỏ Ecuador chọn lọc.',
       images: [
         'https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=800&h=800&fit=crop',
         'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&h=800&fit=crop'
@@ -149,7 +149,7 @@ const ProductDetail = () => {
       category: 'sympathy',
       price: 650000,
       shortDescription: 'Hoa lily trắng và lá dương xỉ',
-      longDescription: 'Bó hoa chia buồn được thiết kế trang nghiêm với hoa lily trắng tinh khôi, thể hiện lòng thương tiếc và sự tôn kính.',
+      longDescription: 'Bó hoa chia buồn được thiết kế trang nghiêm với hoa lily trắng tinh khôi.',
       images: [
         'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=800&fit=crop'
       ],
@@ -163,7 +163,7 @@ const ProductDetail = () => {
       category: 'gift',
       price: 750000,
       shortDescription: 'Cẩm tú cầu xanh dương tươi mát',
-      longDescription: 'Bó hoa quà tặng với cẩm tú cầu xanh dương tươi mát, mang đến cảm giác bình yên và thanh thản.',
+      longDescription: 'Bó hoa quà tặng với cẩm tú cầu xanh dương tươi mát.',
       images: [
         'https://images.unsplash.com/photo-1487070183336-b863922373d4?w=800&h=800&fit=crop'
       ],
@@ -175,14 +175,13 @@ const ProductDetail = () => {
 
   const product = products[id] || products[1];
 
-  // Sample reviews data
-  const reviews = [
+  const sampleReviews = [
     {
       id: 1,
       name: 'Nguyễn Thị Mai',
       rating: 5,
       date: '20/01/2026',
-      comment: 'Hoa đẹp tuyệt vời! Giao hàng đúng hẹn và chất lượng vượt ngoài mong đợi. Cô dâu rất thích và bó hoa giữ được độ tươi suốt cả ngày.',
+      comment: 'Hoa đẹp tuyệt vời! Giao hàng đúng hẹn và chất lượng vượt ngoài mong đợi. Cô dâu rất thích!',
       verified: true,
       helpful: 12
     },
@@ -191,7 +190,7 @@ const ProductDetail = () => {
       name: 'Trần Văn Hùng',
       rating: 5,
       date: '18/01/2026',
-      comment: 'Dịch vụ tuyệt vời, florist tư vấn nhiệt tình. Bó hoa được đóng gói rất cẩn thận và đẹp như trong ảnh.',
+      comment: 'Dịch vụ tuyệt vời, florist tư vấn nhiệt tình. Bó hoa đẹp như trong ảnh.',
       verified: true,
       helpful: 8
     },
@@ -200,15 +199,23 @@ const ProductDetail = () => {
       name: 'Lê Thị Hương',
       rating: 4,
       date: '15/01/2026',
-      comment: 'Hoa đẹp, thiết kế sang trọng. Chỉ có điều giá hơi cao một chút nhưng chất lượng xứng đáng.',
+      comment: 'Hoa đẹp, thiết kế sang trọng. Giá hơi cao nhưng chất lượng xứng đáng.',
       verified: false,
       helpful: 5
     }
   ];
 
-  const relatedProducts = Object.values(products).filter(p => 
+  const relatedProducts = Object.values(products).filter(p =>
     p.category === product.category && p.id !== product.id
   ).slice(0, 3);
+
+  const categoryLabels = {
+    wedding: 'Cưới hỏi',
+    birthday: 'Sinh nhật',
+    anniversary: 'Kỷ niệm',
+    sympathy: 'Chia buồn',
+    gift: 'Quà tặng'
+  };
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -230,617 +237,509 @@ const ProductDetail = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setActiveImageIndex(0);
+    setActiveTab('description');
   }, [id]);
 
+  const zaloLink = `https://zalo.me/0987654321`;
+  const phoneNumber = '0987654321';
+
   return (
-    <div className="product-detail-page">
+    <div className="pd-page">
+
       {/* Breadcrumb */}
-      <section className="breadcrumb-section">
-        <div className="container">
-          <div className="breadcrumb-nav">
-            <Link to="/" className="breadcrumb-item">Trang chủ</Link>
+      <div className="pd-breadcrumb">
+        <div className="pd-container">
+          <nav className="pd-breadcrumb-nav">
+            <Link to="/">Trang chủ</Link>
             <i className="fas fa-chevron-right"></i>
-            <Link to="/products" className="breadcrumb-item">Sản phẩm</Link>
+            <Link to="/products">Sản phẩm</Link>
             <i className="fas fa-chevron-right"></i>
-            <Link to={`/products?category=${product.category}`} className="breadcrumb-item">
-              {product.category === 'wedding' ? 'Cưới hỏi' :
-               product.category === 'birthday' ? 'Sinh nhật' :
-               product.category === 'anniversary' ? 'Kỷ niệm' :
-               product.category === 'sympathy' ? 'Chia buồn' : 'Quà tặng'}
+            <Link to={`/products?category=${product.category}`}>
+              {categoryLabels[product.category] || 'Khác'}
             </Link>
             <i className="fas fa-chevron-right"></i>
-            <span className="breadcrumb-current">{product.name}</span>
-          </div>
+            <span>{product.name}</span>
+          </nav>
         </div>
-      </section>
+      </div>
 
-      {/* Main Product Section */}
-      <section className="product-main">
-        <div className="container">
-          <div className="product-layout">
-            
-            {/* Product Gallery - Expanded */}
-            <div className="product-gallery-section">
-              <div className="product-gallery">
-                
-                {/* Main Image - Larger */}
-                <div className="main-image-container">
-                  <div className="main-image">
-                    <img 
-                      src={product.images[activeImageIndex]} 
-                      alt={product.name}
-                      loading="eager"
-                    />
-                    
-                    {/* Image Badges */}
-                    <div className="image-badges">
-                      {product.badge && (
-                        <span className="product-badge">{product.badge}</span>
-                      )}
-                      {calculateDiscount() > 0 && (
-                        <span className="discount-badge">-{calculateDiscount()}%</span>
-                      )}
-                    </div>
+      {/* ====== HERO PRODUCT SECTION ====== */}
+      <section className="pd-hero">
+        <div className="pd-container">
+          <div className="pd-hero-grid">
 
-                    {/* Image Navigation */}
-                    {product.images.length > 1 && (
-                      <div className="image-nav">
-                        <button 
-                          className="nav-btn prev"
-                          onClick={() => setActiveImageIndex((prev) => 
-                            prev === 0 ? product.images.length - 1 : prev - 1
-                          )}
-                        >
-                          <i className="fas fa-chevron-left"></i>
-                        </button>
-                        <button 
-                          className="nav-btn next"
-                          onClick={() => setActiveImageIndex((prev) => 
-                            (prev + 1) % product.images.length
-                          )}
-                        >
-                          <i className="fas fa-chevron-right"></i>
-                        </button>
-                      </div>
-                    )}
+            {/* Gallery */}
+            <div className="pd-gallery">
+              <div className="pd-gallery-main">
+                <img
+                  src={product.images[activeImageIndex]}
+                  alt={product.name}
+                  loading="eager"
+                  onClick={() => setShowFullGallery(true)}
+                />
 
-                    {/* Zoom/Fullscreen button */}
-                    <button 
-                      className="zoom-btn"
-                      onClick={() => setShowFullGallery(true)}
-                      title="Xem ảnh lớn"
-                    >
-                      <i className="fas fa-search-plus"></i>
-                    </button>
-                  </div>
-
-                  {/* Image Counter */}
-                  <div className="image-counter">
-                    <span className="current">{activeImageIndex + 1}</span>
-                    <span className="divider">/</span>
-                    <span className="total">{product.images.length}</span>
-                  </div>
-                </div>
-
-                {/* Thumbnail Images - Horizontal */}
-                {product.images.length > 1 && (
-                  <div className="thumbnail-gallery">
-                    <div className="thumbnail-scroll">
-                      {product.images.map((image, index) => (
-                        <button
-                          key={index}
-                          className={`thumbnail ${activeImageIndex === index ? 'active' : ''}`}
-                          onClick={() => setActiveImageIndex(index)}
-                        >
-                          <img src={image} alt={`${product.name} ${index + 1}`} />
-                          <div className="thumbnail-overlay"></div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                {product.badge && (
+                  <span className="pd-badge pd-badge--hot">{product.badge}</span>
+                )}
+                {calculateDiscount() > 0 && (
+                  <span className="pd-badge pd-badge--sale">-{calculateDiscount()}%</span>
                 )}
 
+                {product.images.length > 1 && (
+                  <>
+                    <button
+                      className="pd-gallery-nav pd-gallery-nav--prev"
+                      onClick={() => setActiveImageIndex((prev) =>
+                        prev === 0 ? product.images.length - 1 : prev - 1
+                      )}
+                    >
+                      <i className="fas fa-chevron-left"></i>
+                    </button>
+                    <button
+                      className="pd-gallery-nav pd-gallery-nav--next"
+                      onClick={() => setActiveImageIndex((prev) =>
+                        (prev + 1) % product.images.length
+                      )}
+                    >
+                      <i className="fas fa-chevron-right"></i>
+                    </button>
+                  </>
+                )}
 
+                <button
+                  className="pd-gallery-zoom"
+                  onClick={() => setShowFullGallery(true)}
+                >
+                  <i className="fas fa-search-plus"></i>
+                </button>
               </div>
+
+              {product.images.length > 1 && (
+                <div className="pd-thumbs">
+                  {product.images.map((image, index) => (
+                    <button
+                      key={index}
+                      className={`pd-thumb ${activeImageIndex === index ? 'pd-thumb--active' : ''}`}
+                      onClick={() => setActiveImageIndex(index)}
+                    >
+                      <img src={image} alt={`${product.name} ${index + 1}`} />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Product Info */}
-            <div className="product-info-section">
-              <div className="product-info-sticky">
-                
-                {/* Product Title & Category */}
-                <div className="product-header">
-                  <div className="product-category-badge">
-                    <Link to={`/products?category=${product.category}`}>
-                      {product.category === 'wedding' ? 'Cưới hỏi' :
-                       product.category === 'birthday' ? 'Sinh nhật' :
-                       product.category === 'anniversary' ? 'Kỷ niệm' :
-                       product.category === 'sympathy' ? 'Chia buồn' : 'Quà tặng'}
-                    </Link>
-                  </div>
-                  
-                  {product.badge && (
-                    <div className="product-status-badge">
-                      <i className="fas fa-star"></i>
-                      <span>{product.badge}</span>
-                    </div>
-                  )}
-                  
-                  <h1 className="product-title">{product.name}</h1>
+            <div className="pd-info">
+
+              {/* Category + Badge */}
+              <div className="pd-info-top">
+                <Link to={`/products?category=${product.category}`} className="pd-category">
+                  {categoryLabels[product.category] || 'Khác'}
+                </Link>
+                {product.badge && (
+                  <span className="pd-status-badge">
+                    <i className="fas fa-fire"></i> {product.badge}
+                  </span>
+                )}
+              </div>
+
+              {/* Title */}
+              <h1 className="pd-title">{product.name}</h1>
+
+              {/* Rating */}
+              <div className="pd-rating">
+                <div className="pd-stars">
+                  {renderStars(product.rating)}
                 </div>
-                
-                {/* Rating & Reviews */}
-                <div className="product-rating-section">
-                  <div className="rating-display">
-                    <div className="rating-stars">
-                      {renderStars(product.rating)}
-                    </div>
-                    <span className="rating-text">
-                      {product.rating}/5 ({product.reviews} đánh giá)
-                    </span>
+                <span className="pd-rating-text">
+                  {product.rating}/5
+                </span>
+                <span className="pd-rating-count">
+                  ({product.reviews} đánh giá)
+                </span>
+              </div>
+
+              {/* Price */}
+              <div className="pd-price-block">
+                <span className="pd-price">{formatPrice(product.price)}</span>
+                {product.originalPrice && (
+                  <span className="pd-price-old">{formatPrice(product.originalPrice)}</span>
+                )}
+                {calculateDiscount() > 0 && (
+                  <span className="pd-price-save">
+                    Tiết kiệm {formatPrice(product.originalPrice - product.price)} (-{calculateDiscount()}%)
+                  </span>
+                )}
+              </div>
+
+              {/* Short Description */}
+              <p className="pd-short-desc">{product.shortDescription}</p>
+
+              {/* Key Features */}
+              {product.features && (
+                <div className="pd-features">
+                  <h3 className="pd-features-title">Đặc điểm nổi bật</h3>
+                  <ul className="pd-features-list">
+                    {product.features.map((feature, index) => (
+                      <li key={index}>
+                        <i className="fas fa-check"></i>
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Occasions */}
+              {product.occasions && (
+                <div className="pd-occasions">
+                  <h3 className="pd-occasions-title">Phù hợp cho dịp</h3>
+                  <div className="pd-occasion-tags">
+                    {product.occasions.map((occasion, index) => (
+                      <span key={index} className="pd-occasion-tag">{occasion}</span>
+                    ))}
                   </div>
-                  <button 
-                    className="view-reviews-btn"
-                    onClick={() => setActiveTab('reviews')}
+                </div>
+              )}
+
+              {/* Divider */}
+              <div className="pd-divider"></div>
+
+              {/* ====== CTA CONTACT SECTION ====== */}
+              <div className="pd-cta-section">
+                <h3 className="pd-cta-title">
+                  <i className="fas fa-headset"></i>
+                  Liên hệ tư vấn & đặt hàng
+                </h3>
+                <p className="pd-cta-subtitle">
+                  Gọi điện hoặc nhắn tin Zalo để được tư vấn và đặt hoa nhanh nhất
+                </p>
+
+                <div className="pd-cta-buttons">
+                  <a
+                    href={zaloLink}
+                    className="pd-cta-btn pd-cta-btn--zalo"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    Xem đánh giá
+                    <div className="pd-cta-btn-icon">
+                      <i className="fas fa-comments"></i>
+                    </div>
+                    <div className="pd-cta-btn-text">
+                      <strong>Chat Zalo</strong>
+                      <small>Tư vấn miễn phí</small>
+                    </div>
+                  </a>
+
+                  <a
+                    href={`tel:${phoneNumber}`}
+                    className="pd-cta-btn pd-cta-btn--phone"
+                  >
+                    <div className="pd-cta-btn-icon">
+                      <i className="fas fa-phone-alt"></i>
+                    </div>
+                    <div className="pd-cta-btn-text">
+                      <strong>Gọi ngay</strong>
+                      <small>0987.654.321</small>
+                    </div>
+                  </a>
+                </div>
+
+                <div className="pd-cta-extra">
+                  <button
+                    className="pd-btn-outline"
+                    onClick={() => navigator.share && navigator.share({
+                      title: product.name,
+                      text: `${product.shortDescription} - ${formatPrice(product.price)}`,
+                      url: window.location.href
+                    })}
+                  >
+                    <i className="fas fa-share-alt"></i> Chia sẻ
+                  </button>
+                  <button className="pd-btn-outline">
+                    <i className="far fa-heart"></i> Yêu thích
                   </button>
                 </div>
-
-                {/* Price Section */}
-                <div className="product-pricing">
-                  <div className="price-main">
-                    <span className="current-price">{formatPrice(product.price)}</span>
-                    {product.originalPrice && (
-                      <span className="original-price">{formatPrice(product.originalPrice)}</span>
-                    )}
-                  </div>
-                  {product.originalPrice && (
-                    <div className="savings-info">
-                      <span className="savings-amount">
-                        Tiết kiệm {formatPrice(product.originalPrice - product.price)}
-                      </span>
-                      <span className="savings-percent">
-                        (-{calculateDiscount()}%)
-                      </span>
-                    </div>
-                  )}
-                </div>
-                
-                {/* Product Summary */}
-                <div className="product-summary">
-                  <h3>Mô tả ngắn</h3>
-                  <p>{product.shortDescription}</p>
-                  
-                  {product.features && (
-                    <div className="key-features">
-                      <h4>Đặc điểm nổi bật</h4>
-                      <ul>
-                        {product.features.slice(0, 4).map((feature, index) => (
-                          <li key={index}>
-                            <i className="fas fa-check-circle"></i>
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      {product.features.length > 4 && (
-                        <button 
-                          className="see-more-btn"
-                          onClick={() => setActiveTab('description')}
-                        >
-                          Xem thêm ({product.features.length - 4} mục khác) <i className="fas fa-arrow-down"></i>
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
-                
-                {/* Quick Actions */}
-                <div className="quick-actions">
-                  <div className="action-buttons">
-                    <a 
-                      href={`https://zalo.me/bloomstore?text=Tôi muốn tư vấn và đặt hoa ${product.name} - Giá: ${formatPrice(product.price)}`}
-                      className="btn btn-primary btn-order"
-                    >
-                      <i className="fas fa-comments"></i>
-                      <span>
-                        <strong>Tư vấn & Đặt hàng</strong>
-                        <small>Qua Zalo</small>
-                      </span>
-                    </a>
-                    
-                    <a 
-                      href="tel:+84987654321"
-                      className="btn btn-secondary btn-call"
-                    >
-                      <i className="fas fa-phone"></i>
-                      <span>
-                        <strong>Gọi ngay</strong>
-                        <small>0987.654.321</small>
-                      </span>
-                    </a>
-                  </div>
-                  
-                  <div className="secondary-actions">
-                    <button 
-                      className="btn btn-outline btn-share"
-                      onClick={() => navigator.share && navigator.share({
-                        title: product.name,
-                        text: `${product.shortDescription} - ${formatPrice(product.price)}`,
-                        url: window.location.href
-                      })}
-                    >
-                      <i className="fas fa-share-alt"></i>
-                      <span>Chia sẻ</span>
-                    </button>
-                    
-                    <button 
-                      className="btn btn-outline btn-wishlist"
-                      onClick={() => {}}
-                    >
-                      <i className="far fa-heart"></i>
-                      <span>Yêu thích</span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Trust Badges & Policies */}
-                <div className="trust-policies">
-                  <h4>Chính sách & Dịch vụ</h4>
-                  <div className="policies-grid">
-                    <div className="policy-item">
-                      <div className="policy-icon">
-                        <i className="fas fa-shipping-fast"></i>
-                      </div>
-                      <div className="policy-content">
-                        <strong>Giao hàng nhanh</strong>
-                        <span>2-4 giờ trong nội thành</span>
-                      </div>
-                    </div>
-                    
-                    <div className="policy-item">
-                      <div className="policy-icon">
-                        <i className="fas fa-shield-check"></i>
-                      </div>
-                      <div className="policy-content">
-                        <strong>Đảm bảo chất lượng</strong>
-                        <span>100% hoa tươi, hoàn tiền nếu không hài lòng</span>
-                      </div>
-                    </div>
-                    
-                    <div className="policy-item">
-                      <div className="policy-icon">
-                        <i className="fas fa-sync-alt"></i>
-                      </div>
-                      <div className="policy-content">
-                        <strong>Đổi trả linh hoạt</strong>
-                        <span>Trong vòng 24h nếu có vấn đề</span>
-                      </div>
-                    </div>
-                    
-                    <div className="policy-item">
-                      <div className="policy-icon">
-                        <i className="fas fa-headset"></i>
-                      </div>
-                      <div className="policy-content">
-                        <strong>Hỗ trợ tận tình</strong>
-                        <span>Tư vấn miễn phí 24/7</span>
-                      </div>
-                    </div>
-                    
-                    {product.deliveryInfo && (
-                      <div className="policy-item special">
-                        <div className="policy-icon">
-                          <i className="fas fa-gift"></i>
-                        </div>
-                        <div className="policy-content">
-                          <strong>Miễn phí giao hàng</strong>
-                          <span>Đơn hàng từ {formatPrice(product.deliveryInfo.freeShipping)}</span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
               </div>
+
+              {/* Trust Badges */}
+              <div className="pd-trust">
+                <div className="pd-trust-item">
+                  <div className="pd-trust-icon">
+                    <i className="fas fa-shipping-fast"></i>
+                  </div>
+                  <div>
+                    <strong>Giao hàng nhanh</strong>
+                    <span>2-4 giờ nội thành</span>
+                  </div>
+                </div>
+                <div className="pd-trust-item">
+                  <div className="pd-trust-icon">
+                    <i className="fas fa-shield-alt"></i>
+                  </div>
+                  <div>
+                    <strong>Đảm bảo chất lượng</strong>
+                    <span>100% hoa tươi</span>
+                  </div>
+                </div>
+                <div className="pd-trust-item">
+                  <div className="pd-trust-icon">
+                    <i className="fas fa-sync-alt"></i>
+                  </div>
+                  <div>
+                    <strong>Đổi trả 24h</strong>
+                    <span>Nếu có vấn đề</span>
+                  </div>
+                </div>
+                <div className="pd-trust-item">
+                  <div className="pd-trust-icon">
+                    <i className="fas fa-headset"></i>
+                  </div>
+                  <div>
+                    <strong>Hỗ trợ 24/7</strong>
+                    <span>Tư vấn miễn phí</span>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
       </section>
 
-      {/* Product Details Tabs */}
-      <section className="product-details-section">
-        <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">Thông tin chi tiết</h2>
-            <p className="section-subtitle">Tìm hiểu thêm về sản phẩm</p>
-          </div>
-          
-          <div className="tabs-container">
-            
-            {/* Tab Navigation - Improved */}
-            <div className="tabs-nav">
-              <button 
-                className={`tab-btn ${activeTab === 'description' ? 'active' : ''}`}
+      {/* ====== DETAIL TABS ====== */}
+      <section className="pd-details">
+        <div className="pd-container">
+          <div className="pd-tabs">
+
+            <div className="pd-tabs-nav">
+              <button
+                className={`pd-tab ${activeTab === 'description' ? 'pd-tab--active' : ''}`}
                 onClick={() => setActiveTab('description')}
               >
-                <div className="tab-content">
-                  <i className="fas fa-align-left"></i>
-                  <span className="tab-label">Mô tả</span>
-                  <span className="tab-subtitle">Chi tiết sản phẩm</span>
-                </div>
+                <i className="fas fa-align-left"></i>
+                <span>Mô tả</span>
               </button>
-              
+
               {product.specifications && (
-                <button 
-                  className={`tab-btn ${activeTab === 'specifications' ? 'active' : ''}`}
+                <button
+                  className={`pd-tab ${activeTab === 'specifications' ? 'pd-tab--active' : ''}`}
                   onClick={() => setActiveTab('specifications')}
                 >
-                  <div className="tab-content">
-                    <i className="fas fa-list-alt"></i>
-                    <span className="tab-label">Thông số</span>
-                    <span className="tab-subtitle">Kích thước & quy cách</span>
-                  </div>
+                  <i className="fas fa-list-alt"></i>
+                  <span>Thông số</span>
                 </button>
               )}
-              
+
               {product.careInstructions && (
-                <button 
-                  className={`tab-btn ${activeTab === 'care' ? 'active' : ''}`}
+                <button
+                  className={`pd-tab ${activeTab === 'care' ? 'pd-tab--active' : ''}`}
                   onClick={() => setActiveTab('care')}
                 >
-                  <div className="tab-content">
-                    <i className="fas fa-leaf"></i>
-                    <span className="tab-label">Chăm sóc</span>
-                    <span className="tab-subtitle">Bảo quản hoa tươi</span>
-                  </div>
+                  <i className="fas fa-leaf"></i>
+                  <span>Chăm sóc</span>
                 </button>
               )}
-              
-              <button 
-                className={`tab-btn ${activeTab === 'reviews' ? 'active' : ''}`}
+
+              <button
+                className={`pd-tab ${activeTab === 'reviews' ? 'pd-tab--active' : ''}`}
                 onClick={() => setActiveTab('reviews')}
               >
-                <div className="tab-content">
-                  <i className="fas fa-star"></i>
-                  <span className="tab-label">Đánh giá</span>
-                  <span className="tab-subtitle">{reviews.length} nhận xét</span>
-                </div>
+                <i className="fas fa-star"></i>
+                <span>Đánh giá ({sampleReviews.length})</span>
               </button>
-              
+
               {product.deliveryInfo && (
-                <button 
-                  className={`tab-btn ${activeTab === 'delivery' ? 'active' : ''}`}
+                <button
+                  className={`pd-tab ${activeTab === 'delivery' ? 'pd-tab--active' : ''}`}
                   onClick={() => setActiveTab('delivery')}
                 >
-                  <div className="tab-content">
-                    <i className="fas fa-shipping-fast"></i>
-                    <span className="tab-label">Giao hàng</span>
-                    <span className="tab-subtitle">Chính sách & phí</span>
-                  </div>
+                  <i className="fas fa-truck"></i>
+                  <span>Giao hàng</span>
                 </button>
               )}
             </div>
 
-            {/* Tab Content */}
-            <div className="tabs-content">
-              
-              {/* Description Tab */}
+            <div className="pd-tabs-content">
+
+              {/* Description */}
               {activeTab === 'description' && (
-                <div className="tab-panel description-panel">
-                  <div className="description-content">
-                    <h3>Mô tả sản phẩm</h3>
-                    <p className="product-description">{product.longDescription}</p>
-                    
-                    {product.features && (
-                      <div className="features-section">
-                        <h4>Đặc điểm nổi bật</h4>
-                        <div className="features-grid">
-                          {product.features.map((feature, index) => (
-                            <div key={index} className="feature-item">
-                              <i className="fas fa-check-circle"></i>
-                              <span>{feature}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+                <div className="pd-panel">
+                  <h3>Mô tả sản phẩm</h3>
+                  <p className="pd-panel-desc">{product.longDescription}</p>
 
-                    {product.occasions && (
-                      <div className="occasions-section">
-                        <h4>Phù hợp cho dịp</h4>
-                        <div className="occasions-tags">
-                          {product.occasions.map((occasion, index) => (
-                            <span key={index} className="occasion-tag">
-                              {occasion}
-                            </span>
-                          ))}
-                        </div>
+                  {product.features && (
+                    <div className="pd-panel-features">
+                      <h4>Đặc điểm nổi bật</h4>
+                      <div className="pd-panel-features-grid">
+                        {product.features.map((feature, index) => (
+                          <div key={index} className="pd-panel-feature-item">
+                            <i className="fas fa-check-circle"></i>
+                            <span>{feature}</span>
+                          </div>
+                        ))}
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
+
+                  {product.occasions && (
+                    <div className="pd-panel-occasions">
+                      <h4>Phù hợp cho dịp</h4>
+                      <div className="pd-panel-occasion-tags">
+                        {product.occasions.map((occasion, index) => (
+                          <span key={index} className="pd-panel-occasion-tag">{occasion}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
-              {/* Specifications Tab */}
+              {/* Specifications */}
               {activeTab === 'specifications' && product.specifications && (
-                <div className="tab-panel specifications-panel">
+                <div className="pd-panel">
                   <h3>Thông số kỹ thuật</h3>
-                  <div className="specs-table">
+                  <div className="pd-specs-table">
                     {Object.entries(product.specifications).map(([key, value]) => (
-                      <div key={key} className="spec-row">
-                        <span className="spec-label">{key}</span>
-                        <span className="spec-value">{value}</span>
+                      <div key={key} className="pd-spec-row">
+                        <span className="pd-spec-label">{key}</span>
+                        <span className="pd-spec-value">{value}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* Care Instructions Tab */}
+              {/* Care Instructions */}
               {activeTab === 'care' && product.careInstructions && (
-                <div className="tab-panel care-panel">
+                <div className="pd-panel">
                   <h3>Hướng dẫn chăm sóc hoa</h3>
-                  <p className="care-intro">
-                    Để hoa giữ được vẻ tươi đẹp lâu nhất, vui lòng làm theo hướng dẫn sau:
-                  </p>
-                  
-                  <div className="care-steps">
+                  <p className="pd-panel-desc">Để hoa giữ được vẻ tươi đẹp lâu nhất, vui lòng làm theo hướng dẫn sau:</p>
+
+                  <div className="pd-care-steps">
                     {product.careInstructions.map((instruction, index) => (
-                      <div key={index} className="care-step">
-                        <div className="step-number">{index + 1}</div>
-                        <div className="step-content">{instruction}</div>
+                      <div key={index} className="pd-care-step">
+                        <div className="pd-care-step-num">{index + 1}</div>
+                        <p>{instruction}</p>
                       </div>
                     ))}
                   </div>
 
-                  <div className="care-tips">
-                    <div className="tip-item">
+                  <div className="pd-care-tips">
+                    <div className="pd-care-tip">
                       <i className="fas fa-lightbulb"></i>
                       <div>
                         <strong>Mẹo hay:</strong>
                         <p>Thêm 1 viên aspirin hoặc 1 thìa đường vào nước để hoa tươi lâu hơn.</p>
                       </div>
                     </div>
-                    
-                    <div className="tip-item">
+                    <div className="pd-care-tip">
                       <i className="fas fa-thermometer-half"></i>
                       <div>
-                        <strong>Nhiệt độ:</strong>
-                        <p>Giữ hoa ở nhiệt độ 18-22°C để đạt hiệu quả tốt nhất.</p>
+                        <strong>Nhiệt độ lý tưởng:</strong>
+                        <p>Giữ hoa ở 18-22°C để đạt hiệu quả tốt nhất.</p>
                       </div>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Reviews Tab */}
+              {/* Reviews */}
               {activeTab === 'reviews' && (
-                <div className="tab-panel reviews-panel">
-                  <div className="reviews-header">
-                    <h3>Đánh giá từ khách hàng</h3>
-                    
-                    {/* Overall Rating */}
-                    <div className="overall-rating">
-                      <div className="rating-summary">
-                        <div className="rating-score">{product.rating}</div>
-                        <div className="rating-details">
-                          <div className="rating-stars">
-                            {renderStars(product.rating)}
+                <div className="pd-panel">
+                  <div className="pd-reviews-summary">
+                    <div className="pd-reviews-score">
+                      <span className="pd-reviews-number">{product.rating}</span>
+                      <div className="pd-reviews-stars">
+                        {renderStars(product.rating)}
+                      </div>
+                      <span className="pd-reviews-count">{product.reviews} đánh giá</span>
+                    </div>
+
+                    <div className="pd-reviews-bars">
+                      {[5, 4, 3, 2, 1].map(star => (
+                        <div key={star} className="pd-review-bar">
+                          <span>{star} <i className="fas fa-star"></i></span>
+                          <div className="pd-review-bar-track">
+                            <div
+                              className="pd-review-bar-fill"
+                              style={{ width: star <= product.rating ? '85%' : '8%' }}
+                            ></div>
                           </div>
-                          <p>{product.reviews} đánh giá</p>
+                          <span className="pd-review-bar-count">
+                            {star <= product.rating ? Math.floor(product.reviews * 0.8) : Math.floor(product.reviews * 0.05)}
+                          </span>
                         </div>
-                      </div>
-                      
-                      <div className="rating-breakdown">
-                        {[5, 4, 3, 2, 1].map(star => (
-                          <div key={star} className="rating-bar">
-                            <span className="star-label">{star} sao</span>
-                            <div className="bar-container">
-                              <div 
-                                className="bar-fill" 
-                                style={{width: star <= product.rating ? '85%' : '10%'}}
-                              ></div>
-                            </div>
-                            <span className="bar-count">
-                              {star <= product.rating ? Math.floor(product.reviews * 0.8) : Math.floor(product.reviews * 0.1)}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
+                      ))}
                     </div>
                   </div>
 
-                  {/* Reviews List */}
-                  <div className="reviews-list">
-                    {reviews.map(review => (
-                      <div key={review.id} className="review-item">
-                        <div className="review-header">
-                          <div className="reviewer-info">
-                            <div className="reviewer-avatar">
-                              {review.name.charAt(0)}
-                            </div>
-                            <div className="reviewer-details">
-                              <h4 className="reviewer-name">{review.name}</h4>
-                              <div className="review-meta">
-                                <div className="review-rating">
-                                  {renderStars(review.rating)}
-                                </div>
-                                <span className="review-date">{review.date}</span>
-                                {review.verified && (
-                                  <span className="verified-badge">
-                                    <i className="fas fa-check-circle"></i>
-                                    Đã mua hàng
-                                  </span>
-                                )}
-                              </div>
+                  <div className="pd-reviews-list">
+                    {sampleReviews.map(review => (
+                      <div key={review.id} className="pd-review-card">
+                        <div className="pd-review-header">
+                          <div className="pd-review-avatar">
+                            {review.name.charAt(0)}
+                          </div>
+                          <div className="pd-review-meta">
+                            <h4>{review.name}</h4>
+                            <div className="pd-review-info">
+                              <div className="pd-review-stars">{renderStars(review.rating)}</div>
+                              <span>{review.date}</span>
+                              {review.verified && (
+                                <span className="pd-verified">
+                                  <i className="fas fa-check-circle"></i> Đã mua
+                                </span>
+                              )}
                             </div>
                           </div>
                         </div>
-                        
-                        <div className="review-content">
-                          <p>{review.comment}</p>
-                        </div>
-                        
-                        <div className="review-footer">
-                          <button className="helpful-btn">
-                            <i className="far fa-thumbs-up"></i>
-                            Hữu ích ({review.helpful})
-                          </button>
-                        </div>
+                        <p className="pd-review-text">{review.comment}</p>
+                        <button className="pd-review-helpful">
+                          <i className="far fa-thumbs-up"></i> Hữu ích ({review.helpful})
+                        </button>
                       </div>
                     ))}
                   </div>
-
-                  {/* Write Review CTA */}
-                  <div className="write-review-cta">
-                    <h4>Bạn đã sử dụng sản phẩm này?</h4>
-                    <p>Chia sẻ trải nghiệm của bạn để giúp khách hàng khác!</p>
-                    <button className="btn btn-outline">
-                      <i className="fas fa-edit"></i>
-                      Viết đánh giá
-                    </button>
-                  </div>
                 </div>
               )}
 
-              {/* Delivery Tab */}
+              {/* Delivery */}
               {activeTab === 'delivery' && product.deliveryInfo && (
-                <div className="tab-panel delivery-panel">
+                <div className="pd-panel">
                   <h3>Thông tin giao hàng</h3>
-                  
-                  <div className="delivery-options">
-                    <div className="delivery-option">
-                      <div className="option-icon">
+
+                  <div className="pd-delivery-options">
+                    <div className="pd-delivery-option">
+                      <div className="pd-delivery-icon">
                         <i className="fas fa-shipping-fast"></i>
                       </div>
-                      <div className="option-info">
-                        <h4>Giao hàng Express</h4>
-                        <p>Nhận hàng trong vòng {product.deliveryInfo.expressDelivery}</p>
-                        <span className="price">Phí: 50,000đ</span>
+                      <div>
+                        <h4>Express</h4>
+                        <p>Nhận hàng trong {product.deliveryInfo.expressDelivery}</p>
+                        <span className="pd-delivery-price">50.000đ</span>
                       </div>
                     </div>
-                    
-                    <div className="delivery-option">
-                      <div className="option-icon">
+                    <div className="pd-delivery-option">
+                      <div className="pd-delivery-icon">
                         <i className="fas fa-truck"></i>
                       </div>
-                      <div className="option-info">
-                        <h4>Giao hàng tiêu chuẩn</h4>
-                        <p>Nhận hàng trong vòng {product.deliveryInfo.standardDelivery}</p>
-                        <span className="price">
-                          {product.price >= product.deliveryInfo.freeShipping ? 'Miễn phí' : 'Phí: 30,000đ'}
+                      <div>
+                        <h4>Tiêu chuẩn</h4>
+                        <p>Nhận hàng trong {product.deliveryInfo.standardDelivery}</p>
+                        <span className="pd-delivery-price pd-delivery-price--free">
+                          {product.price >= product.deliveryInfo.freeShipping ? 'Miễn phí' : '30.000đ'}
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="delivery-areas">
+                  <div className="pd-delivery-areas">
                     <h4>Khu vực giao hàng</h4>
-                    <p>Hiện tại chúng tôi giao hàng tại: {product.deliveryInfo.areas}</p>
-                    <p>
-                      <strong>Miễn phí giao hàng</strong> cho đơn hàng từ {formatPrice(product.deliveryInfo.freeShipping)} trở lên.
-                    </p>
+                    <p>Hiện tại giao hàng tại: <strong>{product.deliveryInfo.areas}</strong></p>
+                    <p><strong>Miễn phí giao hàng</strong> cho đơn từ {formatPrice(product.deliveryInfo.freeShipping)} trở lên.</p>
                   </div>
                 </div>
               )}
@@ -849,134 +748,87 @@ const ProductDetail = () => {
         </div>
       </section>
 
-      {/* Related Products - Improved */}
+      {/* ====== RELATED PRODUCTS ====== */}
       {relatedProducts.length > 0 && (
-        <section className="related-products-section">
-          <div className="container">
-            <div className="section-header text-center">
-              <h2 className="section-title">Sản phẩm tương tự</h2>
-              <p className="section-subtitle">
-                Những sản phẩm khác bạn có thể quan tâm trong danh mục{' '}
-                <strong>
-                  {product.category === 'wedding' ? 'Cưới hỏi' :
-                   product.category === 'birthday' ? 'Sinh nhật' :
-                   product.category === 'anniversary' ? 'Kỷ niệm' :
-                   product.category === 'sympathy' ? 'Chia buồn' : 'Quà tặng'}
-                </strong>
-              </p>
+        <section className="pd-related">
+          <div className="pd-container">
+            <div className="pd-section-header">
+              <h2>Sản phẩm tương tự</h2>
+              <p>Có thể bạn quan tâm trong danh mục <strong>{categoryLabels[product.category]}</strong></p>
             </div>
-            
-            <div className="related-products-grid">
-              {relatedProducts.map(relatedProduct => (
-                <div key={relatedProduct.id} className="related-product-card">
-                  <Link to={`/products/${relatedProduct.id}`} className="product-link">
-                    <div className="product-image-container">
-                      <img src={relatedProduct.images[0]} alt={relatedProduct.name} loading="lazy" />
-                      
-                      {/* Product badges */}
-                      <div className="product-badges">
-                        {relatedProduct.badge && (
-                          <span className="product-badge">{relatedProduct.badge}</span>
-                        )}
-                        {relatedProduct.originalPrice && (
-                          <span className="discount-badge">
-                            -{Math.round(((relatedProduct.originalPrice - relatedProduct.price) / relatedProduct.originalPrice) * 100)}%
-                          </span>
-                        )}
-                      </div>
-                      
-                      <div className="product-overlay">
-                        <div className="overlay-content">
-                          <span className="quick-view-text">Xem chi tiết</span>
-                          <i className="fas fa-arrow-right"></i>
-                        </div>
-                      </div>
+
+            <div className="pd-related-grid">
+              {relatedProducts.map(rp => (
+                <Link key={rp.id} to={`/products/${rp.id}`} className="pd-related-card">
+                  <div className="pd-related-img">
+                    <img src={rp.images[0]} alt={rp.name} loading="lazy" />
+                    <div className="pd-related-overlay">
+                      <span>Xem chi tiết <i className="fas fa-arrow-right"></i></span>
                     </div>
-                    
-                    <div className="product-info">
-                      <h3 className="product-name">{relatedProduct.name}</h3>
-                      
-                      <div className="product-meta">
-                        <div className="product-rating">
-                          <div className="rating-stars small">
-                            {renderStars(relatedProduct.rating)}
-                          </div>
-                          <span className="rating-count">({relatedProduct.reviews})</span>
-                        </div>
-                      </div>
-                      
-                      <div className="product-price">
-                        <span className="current-price">{formatPrice(relatedProduct.price)}</span>
-                        {relatedProduct.originalPrice && (
-                          <span className="original-price">{formatPrice(relatedProduct.originalPrice)}</span>
-                        )}
-                      </div>
-                      
-                      <div className="product-features">
-                        <p className="short-description">{relatedProduct.shortDescription}</p>
-                      </div>
+                  </div>
+                  <div className="pd-related-body">
+                    <h3>{rp.name}</h3>
+                    <div className="pd-related-stars">
+                      {renderStars(rp.rating)}
+                      <span>({rp.reviews})</span>
                     </div>
-                  </Link>
-                </div>
+                    <div className="pd-related-price">
+                      <span className="pd-price">{formatPrice(rp.price)}</span>
+                      {rp.originalPrice && (
+                        <span className="pd-price-old">{formatPrice(rp.originalPrice)}</span>
+                      )}
+                    </div>
+                  </div>
+                </Link>
               ))}
             </div>
-            
-            <div className="section-footer">
-              <div className="navigation-actions">
-                <Link to={`/products?category=${product.category}`} className="btn btn-outline btn-lg">
-                  <i className="fas fa-filter"></i>
-                  <span>Xem thêm {product.category === 'wedding' ? 'Hoa cưới' :
-                   product.category === 'birthday' ? 'Hoa sinh nhật' :
-                   product.category === 'anniversary' ? 'Hoa kỷ niệm' :
-                   product.category === 'sympathy' ? 'Hoa chia buồn' : 'Hoa quà tặng'}</span>
-                </Link>
-                
-                <Link to="/products" className="btn btn-primary btn-lg">
-                  <i className="fas fa-th-large"></i>
-                  <span>Tất cả sản phẩm</span>
-                </Link>
-              </div>
-              
-              <div className="back-to-top">
-                <button 
-                  className="btn btn-secondary"
-                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                >
-                  <i className="fas fa-arrow-up"></i>
-                  <span>Về đầu trang</span>
-                </button>
-              </div>
+
+            <div className="pd-related-actions">
+              <Link to="/products" className="pd-btn-primary">
+                <i className="fas fa-th-large"></i> Xem tất cả sản phẩm
+              </Link>
             </div>
           </div>
         </section>
       )}
 
-      {/* Full Gallery Modal */}
+      {/* ====== FLOATING CONTACT BAR (Mobile) ====== */}
+      <div className="pd-floating-bar">
+        <a href={zaloLink} className="pd-float-btn pd-float-btn--zalo" target="_blank" rel="noopener noreferrer">
+          <i className="fas fa-comments"></i>
+          <span>Chat Zalo</span>
+        </a>
+        <a href={`tel:${phoneNumber}`} className="pd-float-btn pd-float-btn--phone">
+          <i className="fas fa-phone-alt"></i>
+          <span>Gọi ngay</span>
+        </a>
+      </div>
+
+      {/* ====== FULLSCREEN GALLERY MODAL ====== */}
       {showFullGallery && (
-        <div className="gallery-modal" onClick={() => setShowFullGallery(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button 
-              className="modal-close"
-              onClick={() => setShowFullGallery(false)}
-            >
+        <div className="pd-modal" onClick={() => setShowFullGallery(false)}>
+          <div className="pd-modal-content" onClick={e => e.stopPropagation()}>
+            <button className="pd-modal-close" onClick={() => setShowFullGallery(false)}>
               <i className="fas fa-times"></i>
             </button>
-            
-            <div className="modal-image">
+
+            <div className="pd-modal-img">
               <img src={product.images[activeImageIndex]} alt={product.name} />
             </div>
-            
-            <div className="modal-thumbnails">
-              {product.images.map((image, index) => (
-                <button
-                  key={index}
-                  className={`modal-thumbnail ${activeImageIndex === index ? 'active' : ''}`}
-                  onClick={() => setActiveImageIndex(index)}
-                >
-                  <img src={image} alt={`${product.name} ${index + 1}`} />
-                </button>
-              ))}
-            </div>
+
+            {product.images.length > 1 && (
+              <div className="pd-modal-thumbs">
+                {product.images.map((image, index) => (
+                  <button
+                    key={index}
+                    className={`pd-modal-thumb ${activeImageIndex === index ? 'pd-modal-thumb--active' : ''}`}
+                    onClick={() => setActiveImageIndex(index)}
+                  >
+                    <img src={image} alt={`${product.name} ${index + 1}`} />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
