@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bó hoa cưới Romantic - BloomStore</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/product-detail.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html">
+                        <h1>BloomStore</h1>
+                        <span class="logo-tagline">Premium Flowers</span>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="index.html#home" class="nav-link">Trang chủ</a></li>
+                    <li class="nav-item"><a href="index.html#products" class="nav-link">Sản phẩm</a></li>
+                    <li class="nav-item"><a href="index.html#services" class="nav-link">Dịch vụ</a></li>
+                    <li class="nav-item"><a href="index.html#about" class="nav-link">Về chúng tôi</a></li>
+                    <li class="nav-item"><a href="index.html#contact" class="nav-link">Liên hệ</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="nav-social">
+                        <a href="https://zalo.me/bloomstore" class="social-link"><i class="fas fa-comments"></i></a>
+                        <a href="https://facebook.com/bloomstore" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="https://instagram.com/bloomstore" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <button class="btn-menu-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb">
+        <div class="container">
+            <nav class="breadcrumb-nav">
+                <a href="index.html">Trang chủ</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="index.html#products">Sản phẩm</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Bó hoa cưới Romantic</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Product Detail -->
+    <section class="product-detail">
+        <div class="container">
+            <div class="product-detail-content">
+                <!-- Product Gallery -->
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <img id="mainImage" src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=600&h=600&fit=crop" alt="Bó hoa cưới Romantic">
+                        <div class="image-badges">
+                            <span class="badge bestseller">Bán chạy</span>
+                            <span class="badge premium">Premium</span>
+                        </div>
+                        <button class="image-zoom" onclick="openImageModal()">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="thumbnail-gallery">
+                        <div class="thumbnail active" onclick="changeMainImage('https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=600&h=600&fit=crop')">
+                            <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=150&h=150&fit=crop" alt="View 1">
+                        </div>
+                        <div class="thumbnail" onclick="changeMainImage('https://images.unsplash.com/photo-1594736797933-d0282ba6205c?w=600&h=600&fit=crop')">
+                            <img src="https://images.unsplash.com/photo-1594736797933-d0282ba6205c?w=150&h=150&fit=crop" alt="View 2">
+                        </div>
+                        <div class="thumbnail" onclick="changeMainImage('https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=600&h=600&fit=crop')">
+                            <img src="https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=150&h=150&fit=crop" alt="View 3">
+                        </div>
+                        <div class="thumbnail" onclick="changeMainImage('https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop')">
+                            <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=150&h=150&fit=crop" alt="View 4">
+                        </div>
+                        <div class="thumbnail" onclick="changeMainImage('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=600&h=600&fit=crop')">
+                            <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=150&h=150&fit=crop" alt="View 5">
+                        </div>
+                        <div class="thumbnail" onclick="changeMainImage('https://images.unsplash.com/photo-1595255778816-b5e0efeddc7d?w=600&h=600&fit=crop')">
+                            <img src="https://images.unsplash.com/photo-1595255778816-b5e0efeddc7d?w=150&h=150&fit=crop" alt="View 6">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="product-info">
+                    <div class="product-header">
+                        <h1 class="product-title">Bó hoa cưới Romantic</h1>
+                        <div class="product-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="rating-text">(24 đánh giá)</span>
+                            <span class="rating-score">5.0</span>
+                        </div>
+                    </div>
+
+                    <div class="product-price">
+                        <span class="current-price">1.200.000đ</span>
+                        <span class="original-price">1.500.000đ</span>
+                        <span class="discount">-20%</span>
+                    </div>
+
+                    <div class="product-description">
+                        <p>Bó hoa cưới Romantic là sự kết hợp hoàn hảo giữa hoa hồng trắng tinh khôi và baby breath nhẹ nhàng, tạo nên vẻ đẹp thuần khiết và lãng mạn cho ngày cưới của bạn.</p>
+                    </div>
+
+                    <div class="product-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Kích thước:</span>
+                            <span class="detail-value">30cm x 25cm</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Loại hoa chính:</span>
+                            <span class="detail-value">Hoa hồng trắng Ecuador</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Hoa phụ:</span>
+                            <span class="detail-value">Baby breath, lá bạc</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Màu sắc:</span>
+                            <span class="detail-value">Trắng tinh khôi</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Thời gian bảo quản:</span>
+                            <span class="detail-value">5-7 ngày</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Phù hợp:</span>
+                            <span class="detail-value">Đám cưới, lễ đính hôn</span>
+                        </div>
+                    </div>
+
+                    <div class="product-options">
+                        <div class="option-group">
+                            <label>Kích thước:</label>
+                            <div class="size-options">
+                                <button class="size-option">Nhỏ</button>
+                                <button class="size-option active">Vừa</button>
+                                <button class="size-option">Lớn</button>
+                            </div>
+                        </div>
+                        
+                        <div class="option-group">
+                            <label>Phụ kiện đi kèm:</label>
+                            <div class="addon-options">
+                                <label class="addon-item">
+                                    <input type="checkbox" value="ribbon">
+                                    <span>Ruy băng lụa (+50.000đ)</span>
+                                </label>
+                                <label class="addon-item">
+                                    <input type="checkbox" value="card">
+                                    <span>Thiệp chúc mừng (+30.000đ)</span>
+                                </label>
+                                <label class="addon-item">
+                                    <input type="checkbox" value="box">
+                                    <span>Hộp bảo quản (+100.000đ)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="contact-buttons">
+                            <a href="https://zalo.me/bloomstore" class="btn btn-primary">
+                                <i class="fas fa-comments"></i>
+                                Chat Zalo
+                            </a>
+                            <a href="tel:+84901234567" class="btn btn-outline">
+                                <i class="fas fa-phone"></i>
+                                Gọi ngay
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="product-features">
+                        <div class="feature">
+                            <i class="fas fa-truck"></i>
+                            <span>Giao hàng miễn phí trong 2h</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Đảm bảo tươi mới 100%</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-undo-alt"></i>
+                            <span>Đổi trả trong 24h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Tabs -->
+    <section class="product-tabs">
+        <div class="container">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="description">Mô tả chi tiết</button>
+                <button class="tab-btn" data-tab="care">Hướng dẫn chăm sóc</button>
+                <button class="tab-btn" data-tab="reviews">Đánh giá (24)</button>
+                <button class="tab-btn" data-tab="delivery">Chính sách giao hàng</button>
+            </div>
+
+            <div class="tab-content active" id="description">
+                <h3>Mô tả sản phẩm</h3>
+                <div class="description-content">
+                    <p>Bó hoa cưới Romantic được thiết kế đặc biệt cho những cô dâu yêu thích sự tinh khôi và lãng mạn. Với những bông hoa hồng trắng Ecuador cao cấp được tuyển chọn kỹ lưỡng, kết hợp cùng baby breath tạo nên sự nhẹ nhàng, thanh thoát.</p>
+                    
+                    <h4>Đặc điểm nổi bật:</h4>
+                    <ul>
+                        <li>Hoa hồng trắng Ecuador cao cấp - loài hoa được mệnh danh là "nữ hoàng của các loài hoa"</li>
+                        <li>Baby breath tươi mới, tạo hiệu ứng mờ ảo, lãng mạn</li>
+                        <li>Lá bạc điểm xuyết tăng thêm vẻ sang trọng</li>
+                        <li>Thiết kế cân đối, phù hợp với mọi phong cách trang phục cưới</li>
+                        <li>Gói bằng giấy kraft cao cấp với ruy băng lụa</li>
+                    </ul>
+
+                    <h4>Ý nghĩa:</h4>
+                    <p>Hoa hồng trắng tượng trưng cho tình yêu trong sáng, thuần khiết và sự khởi đầu mới. Baby breath đại diện cho sự vĩnh cửu và lòng chung thủy. Sự kết hợp này mang ý nghĩa chúc phúc cho một cuộc hôn nhân hạnh phúc, bền vững.</p>
+                </div>
+            </div>
+
+            <div class="tab-content" id="care">
+                <h3>Hướng dẫn chăm sóc hoa</h3>
+                <div class="care-content">
+                    <div class="care-steps">
+                        <div class="care-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Chuẩn bị bình cắm</h4>
+                                <p>Rửa sạch bình cắm hoa bằng nước sạch và một chút nước tẩy để khử trùng. Đổ nước sạch vào bình, mức nước khoảng 2/3 bình.</p>
+                            </div>
+                        </div>
+                        <div class="care-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Cắt gốc hoa</h4>
+                                <p>Dùng dao sắc cắt xiên gốc hoa dưới nước chảy, tạo góc 45 độ để tăng diện tích hấp thụ nước.</p>
+                            </div>
+                        </div>
+                        <div class="care-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Loại bỏ lá thừa</h4>
+                                <p>Bỏ các lá bị héo úa hoặc lá ở phần dưới thân cây sẽ ngâm trong nước để tránh thối rữa.</p>
+                            </div>
+                        </div>
+                        <div class="care-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Bảo quản</h4>
+                                <p>Đặt bình hoa ở nơi thoáng mát, tránh ánh nắng trực tiếp và gió lớn. Thay nước 2-3 ngày/lần.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="reviews">
+                <h3>Đánh giá từ khách hàng</h3>
+                <div class="reviews-summary">
+                    <div class="rating-overview">
+                        <div class="rating-score-large">5.0</div>
+                        <div class="rating-details">
+                            <div class="stars-large">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p>24 đánh giá</p>
+                        </div>
+                    </div>
+                    <div class="rating-breakdown">
+                        <div class="rating-row">
+                            <span>5 sao</span>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 100%"></div>
+                            </div>
+                            <span>24</span>
+                        </div>
+                        <div class="rating-row">
+                            <span>4 sao</span>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: 0%"></div>
+                            </div>
+                            <span>0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reviews-list">
+                    <div class="review-item">
+                        <div class="reviewer-info">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face" alt="Reviewer">
+                            <div class="reviewer-details">
+                                <h4>Nguyễn Thị Lan</h4>
+                                <div class="review-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="review-date">15/01/2026</span>
+                            </div>
+                        </div>
+                        <p class="review-text">Hoa đẹp quá! Đúng như hình và còn đẹp hơn nữa. Giao hàng nhanh, đóng gói cẩn thận. Sẽ ủng hộ shop lâu dài.</p>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="reviewer-info">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face" alt="Reviewer">
+                            <div class="reviewer-details">
+                                <h4>Trần Văn Nam</h4>
+                                <div class="review-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="review-date">10/01/2026</span>
+                            </div>
+                        </div>
+                        <p class="review-text">Đặt hoa cho đám cưới, chất lượng tuyệt vời. Hoa tươi, mùi thơm và giữ được lâu. Highly recommended!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="delivery">
+                <h3>Chính sách giao hàng</h3>
+                <div class="delivery-content">
+                    <div class="delivery-info">
+                        <h4>Thời gian giao hàng:</h4>
+                        <ul>
+                            <li><strong>Giao hàng nhanh:</strong> 2-3 giờ (phí 50.000đ)</li>
+                            <li><strong>Giao hàng tiêu chuẩn:</strong> 4-6 giờ (miễn phí)</li>
+                            <li><strong>Giao hàng theo lịch:</strong> Đặt trước 24h (miễn phí)</li>
+                        </ul>
+
+                        <h4>Khu vực giao hàng:</h4>
+                        <ul>
+                            <li>Nội thành TP.HCM: Miễn phí</li>
+                            <li>Ngoại thành TP.HCM: 30.000đ</li>
+                            <li>Các tỉnh lân cận: 100.000đ</li>
+                        </ul>
+
+                        <h4>Cam kết:</h4>
+                        <ul>
+                            <li>Giao hàng đúng giờ cam kết</li>
+                            <li>Hoa tươi 100% khi giao</li>
+                            <li>Đóng gói cẩn thận, chống sốc</li>
+                            <li>Nhân viên giao hàng chuyên nghiệp</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Sản phẩm tương tự</h2>
+                <p class="section-description">Những sản phẩm khác bạn có thể quan tâm</p>
+            </div>
+
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop" alt="Hoa sinh nhật">
+                        <div class="product-overlay">
+                            <button class="btn-quick-view" onclick="window.location.href='product-detail.html'">Xem chi tiết</button>
+                            <button class="btn-contact">Liên hệ đặt hàng</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Bó hoa sinh nhật rực rỡ</h3>
+                        <div class="product-price">
+                            <span class="price-current">800.000đ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=400&h=400&fit=crop" alt="Hoa kỷ niệm">
+                        <div class="product-overlay">
+                            <button class="btn-quick-view" onclick="window.location.href='product-detail.html'">Xem chi tiết</button>
+                            <button class="btn-contact">Liên hệ đặt hàng</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Hộp hoa kỷ niệm</h3>
+                        <div class="product-price">
+                            <span class="price-current">1.800.000đ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1595255778816-b5e0efeddc7d?w=400&h=400&fit=crop" alt="Hoa chia buồn">
+                        <div class="product-overlay">
+                            <button class="btn-quick-view" onclick="window.location.href='product-detail.html'">Xem chi tiết</button>
+                            <button class="btn-contact">Liên hệ đặt hàng</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Vòng hoa chia buồn</h3>
+                        <div class="product-price">
+                            <span class="price-current">2.500.000đ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>BloomStore</h3>
+                    <p>Mang vẻ đẹp thiên nhiên vào cuộc sống với những bó hoa tươi cao cấp được tuyển chọn kỹ lưỡng.</p>
+                    <div class="footer-social">
+                        <a href="https://zalo.me/bloomstore" class="social-link"><i class="fas fa-comments"></i></a>
+                        <a href="https://facebook.com/bloomstore" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="https://instagram.com/bloomstore" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Sản phẩm</h4>
+                    <ul>
+                        <li><a href="#">Hoa cưới</a></li>
+                        <li><a href="#">Hoa sinh nhật</a></li>
+                        <li><a href="#">Hoa kỷ niệm</a></li>
+                        <li><a href="#">Hoa chia buồn</a></li>
+                        <li><a href="#">Hoa tặng</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Dịch vụ</h4>
+                    <ul>
+                        <li><a href="#">Giao hoa tận nơi</a></li>
+                        <li><a href="#">Thiết kế theo yêu cầu</a></li>
+                        <li><a href="#">Trang trí sự kiện</a></li>
+                        <li><a href="#">Đặt hoa định kỳ</a></li>
+                        <li><a href="#">Tư vấn chuyên nghiệp</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Hỗ trợ</h4>
+                    <ul>
+                        <li><a href="#">Chính sách giao hàng</a></li>
+                        <li><a href="#">Chính sách đổi trả</a></li>
+                        <li><a href="#">Hướng dẫn đặt hàng</a></li>
+                        <li><a href="#">Câu hỏi thường gặp</a></li>
+                        <li><a href="#">Liên hệ hỗ trợ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; 2026 BloomStore. Tất cả quyền được bảo lưu.</p>
+                </div>
+                <div class="footer-payment">
+                    <span>Phương thức thanh toán:</span>
+                    <div class="payment-icons">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-paypal"></i>
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal">
+        <div class="modal-overlay" onclick="closeImageModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeImageModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="modalImage" src="" alt="Product Image">
+            <div class="modal-navigation">
+                <button class="nav-btn prev" onclick="previousImage()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="nav-btn next" onclick="nextImage()">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/product-detail.js"></script>
+</body>
+</html>
