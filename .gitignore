@@ -86,3 +86,10 @@ jspm_packages/
 # TernJS port file
 .tern-port
 backend/dist/
+
+# Uploads
+backend/public/uploads/
+
+# Logs
+logs/
+*.log
