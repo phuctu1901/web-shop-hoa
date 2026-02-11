@@ -1,231 +1,202 @@
-# BloomStore - Shop Hoa Tươi Cao Cấp
+# 🌸 BloomStore — Shop Hoa Online
 
-Một landing page hiện đại và responsive cho shop hoa tươi, được thiết kế với phong cách elegant và user experience tối ưu.
-
-## ✨ Tính năng
-
-### 🎨 Thiết kế
-- **Hiện đại & Elegant**: Sử dụng typography đẹp mắt với Playfair Display và Inter
-- **Responsive Design**: Tối ưu cho desktop, tablet và mobile
-- **Dark Mode Ready**: Có thể dễ dàng thêm dark mode
-- **Smooth Animations**: Hiệu ứng mượt mà và chuyên nghiệp
-
-### 🛍️ Chức năng E-commerce
-- **Product Catalog**: Hiển thị sản phẩm với filter theo danh mục
-- **Quick View**: Xem nhanh thông tin sản phẩm
-- **Shopping Cart**: Thêm sản phẩm vào giỏ hàng (lưu trong localStorage)
-- **Product Rating**: Hệ thống đánh giá sao
-
-### 📧 Tương tác khách hàng
-- **Contact Form**: Form liên hệ với validation
-- **Testimonials**: Hiển thị đánh giá khách hàng
-- **Newsletter**: Đăng ký nhận thông tin
-- **Social Media Integration**: Kết nối mạng xã hội
-
-### 🚀 Hiệu suất
-- **Optimized Images**: Sử dụng Unsplash với optimization
-- **Fast Loading**: CSS và JS được tối ưu
-- **SEO Friendly**: Meta tags và semantic HTML
-- **Accessibility**: ARIA labels và keyboard navigation
-
-## 📁 Cấu trúc thư mục
-
-```
-flower-store/
-├── index.html          # Trang chính
-├── css/
-│   └── style.css       # Stylesheet chính
-├── js/
-│   └── script.js       # JavaScript functionality
-└── README.md           # Documentation
-```
-
-## 🎯 Sections
-
-### 1. **Header & Navigation**
-- Logo với tagline
-- Menu navigation responsive
-- Shopping cart với counter
-- Mobile hamburger menu
-
-### 2. **Hero Section**
-- Background hero với overlay
-- Call-to-action buttons
-- Statistics showcase
-- Parallax scrolling effect
-
-### 3. **Featured Products**
-- Product grid với hover effects
-- Category filtering
-- Quick view modal
-- Add to cart functionality
-
-### 4. **Services**
-- Service cards với icons
-- Hover animations
-- Clean layout
-
-### 5. **About Section**
-- Company story
-- Feature highlights
-- Statistics badge
-- Split layout với image
-
-### 6. **Testimonials**
-- Customer reviews
-- Star ratings
-- Profile photos
-- Carousel layout
-
-### 7. **Contact Section**
-- Contact information
-- Working contact form
-- Social media links
-- Location details
-
-### 8. **Footer**
-- Multi-column layout
-- Quick links
-- Payment methods
-- Copyright information
-
-## 🎨 Color Palette
-
-```css
-Primary Colors:
-- Brown: #8B4513 (Saddle Brown)
-- Dark Brown: #A0522D
-- Dark Green: #2C3E2D
-- Gold: #FFD700
-
-Neutral Colors:
-- White: #FFFFFF
-- Light Gray: #FAFAFA
-- Medium Gray: #666666
-- Dark: #333333
-```
-
-## 📱 Responsive Breakpoints
-
-- **Desktop**: 1200px+
-- **Laptop**: 992px - 1199px
-- **Tablet**: 768px - 991px
-- **Mobile**: 480px - 767px
-- **Small Mobile**: < 480px
-
-## 🛠️ Technologies Used
-
-- **HTML5**: Semantic markup
-- **CSS3**: Flexbox, Grid, Animations
-- **JavaScript ES6+**: Modern JavaScript
-- **Font Awesome**: Icons
-- **Google Fonts**: Typography
-- **Unsplash**: High-quality images
-
-## 🚀 Setup Instructions
-
-1. **Clone hoặc download project**
-2. **Mở index.html trong browser**
-3. **Hoặc sử dụng live server cho development**
-
-```bash
-# Nếu sử dụng VS Code Live Server
-# Cài đặt extension Live Server
-# Right-click index.html và chọn "Open with Live Server"
-```
-
-## 📈 Performance Optimization
-
-### Images
-- Sử dụng Unsplash API với parameters optimization
-- Lazy loading cho images (có thể thêm)
-- WebP format support (có thể upgrade)
-
-### CSS
-- Minification ready
-- Critical CSS inline (có thể thêm)
-- CSS Grid và Flexbox cho layout hiệu quả
-
-### JavaScript
-- Event delegation
-- Intersection Observer API
-- LocalStorage cho cart data
-
-## 🎉 Features Ready for Enhancement
-
-### 🛍️ E-commerce
-- [ ] Product search functionality
-- [ ] Wishlist feature
-- [ ] Product reviews system
-- [ ] Checkout process
-- [ ] Payment integration
-
-### 📱 Progressive Web App
-- [ ] Service worker
-- [ ] Offline functionality
-- [ ] Push notifications
-- [ ] App manifest
-
-### 🎨 Advanced UI
-- [ ] Dark mode toggle
-- [ ] Product image zoom
-- [ ] 360° product view
-- [ ] Advanced filtering
-
-### 🔧 Backend Integration
-- [ ] REST API connection
-- [ ] User authentication
-- [ ] Order management
-- [ ] Inventory tracking
-
-## 🎨 Customization Guide
-
-### Colors
-Thay đổi color scheme trong CSS variables:
-
-```css
-:root {
-  --primary-color: #8B4513;
-  --secondary-color: #A0522D;
-  --accent-color: #FFD700;
-  --text-dark: #2C3E2D;
-}
-```
-
-### Fonts
-Thay đổi typography:
-
-```css
-/* Heading font */
-.hero-title, .section-title {
-  font-family: 'Your-Font', serif;
-}
-
-/* Body font */
-body {
-  font-family: 'Your-Font', sans-serif;
-}
-```
-
-### Layout
-Adjust container max-width:
-
-```css
-.container {
-  max-width: 1200px; /* Thay đổi theo ý muốn */
-}
-```
-
-## 📞 Support
-
-Nếu bạn cần hỗ trợ hoặc có questions:
-- Email: support@bloomstore.vn
-- Phone: +84 901 234 567
-
-## 📄 License
-
-Tự do sử dụng cho personal và commercial projects.
+Website thương mại điện tử bán hoa chuyên nghiệp, xây dựng bằng **React** (frontend) + **NestJS** (backend) + **MariaDB**.
 
 ---
 
-**Developed with ❤️ for BloomStore**
+## 📸 Screenshots
+
+### 🏠 Trang chủ
+![Homepage](docs/screenshots/homepage.png)
+
+### 🛒 Sản phẩm
+![Products](docs/screenshots/products.png)
+
+### 🎨 Dịch vụ
+![Services](docs/screenshots/services.png)
+
+### 📞 Liên hệ
+![Contact](docs/screenshots/contact.png)
+
+### 🖼️ Thư viện ảnh
+![Gallery](docs/screenshots/gallery.png)
+
+### 🔧 Admin Panel — Dashboard
+![Admin Dashboard](docs/screenshots/admin-dashboard.png)
+
+### 📦 Admin Panel — Quản lý sản phẩm
+![Admin Products](docs/screenshots/admin-products.png)
+
+### 🏷️ Admin Panel — Quản lý danh mục
+![Admin Categories](docs/screenshots/admin-categories.png)
+
+### ⚙️ Admin Panel — Cài đặt
+![Admin Settings](docs/screenshots/admin-settings.png)
+
+---
+
+## ✨ Tính năng
+
+### Frontend (React)
+- **Trang chủ** — Hero banner, sản phẩm nổi bật, dịch vụ, thống kê
+- **Sản phẩm** — Lọc theo danh mục, sắp xếp (giá, mới nhất, đánh giá), tìm kiếm
+- **Chi tiết sản phẩm** — Gallery ảnh, mô tả, SEO metadata, đánh giá
+- **Dịch vụ** — Trình bày dịch vụ với animation
+- **Liên hệ** — Form gửi tin nhắn, Google Maps, thông tin liên hệ
+- **Thư viện ảnh** — Gallery với bộ lọc danh mục
+- **Responsive** — Tương thích mobile, tablet, desktop
+
+### Backend (NestJS)
+- **REST API** với Swagger documentation
+- **Admin Panel** — Quản lý sản phẩm, danh mục, đánh giá, cài đặt
+- **Authentication** — JWT, đổi mật khẩu
+- **Upload ảnh** — Tự động convert WebP, resize, optimize
+- **SEO-friendly** — Auto-generate slug từ tiếng Việt
+- **Settings** — Quản lý thông tin shop động từ admin
+
+### Bảo mật
+- ✅ Helmet security headers
+- ✅ CORS cấu hình theo môi trường
+- ✅ JWT Auth Guards trên tất cả write endpoints
+- ✅ Input validation (class-validator)
+- ✅ XSS prevention (HTML escaping trong admin panel)
+- ✅ Bcrypt password hashing
+- ✅ Parameterized queries (chống SQL injection)
+- ✅ File upload filter + size limit
+
+---
+
+## 🚀 Cài đặt & Chạy
+
+### Yêu cầu
+- Node.js 18+
+- Docker & Docker Compose (cho MariaDB)
+
+### Development
+
+```bash
+# 1. Clone repo
+git clone https://github.com/phuctu1901/web-shop-hoa.git
+cd web-shop-hoa
+
+# 2. Khởi động database
+docker compose up -d
+
+# 3. Cài đặt & chạy backend
+cd backend
+npm install
+npm run start:dev
+# Backend chạy tại http://localhost:3000
+
+# 4. Cài đặt & chạy frontend (terminal mới)
+cd ..
+npm install
+PORT=3456 npm start
+# Frontend chạy tại http://localhost:3456
+```
+
+### Truy cập
+| URL | Mô tả |
+|-----|-------|
+| http://localhost:3456 | Frontend (React) |
+| http://localhost:3000/quanly/ | Admin Panel |
+| http://localhost:3000/api/docs | Swagger API Docs |
+
+**Admin Login:** `admin` / `admin123`
+
+---
+
+## 🌐 Deploy lên VPS
+
+### Yêu cầu VPS
+- Ubuntu 20.04+
+- Nginx, Docker, Node.js 18+, PM2
+
+### Các bước deploy
+
+```bash
+# 1. Cài đặt dependencies
+sudo apt update && sudo apt install -y nginx docker.io docker-compose
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
+npm install -g pm2
+
+# 2. Clone & config
+git clone https://github.com/phuctu1901/web-shop-hoa.git /var/www/bloomstore
+cd /var/www/bloomstore
+cp .env.example .env
+nano .env  # Sửa JWT_SECRET, DB passwords
+
+# 3. Deploy tự động
+chmod +x deploy.sh
+./deploy.sh
+
+# 4. SSL Certificate
+sudo certbot --nginx -d shophoa.techcave.space
+```
+
+### File cấu hình
+| File | Mục đích |
+|------|----------|
+| `.env.example` | Template biến môi trường |
+| `ecosystem.config.js` | PM2 process manager |
+| `nginx/bloomstore.conf` | Nginx reverse proxy |
+| `deploy.sh` | Script deploy tự động |
+| `docker-compose.yml` | MariaDB container |
+
+---
+
+## 🏗️ Cấu trúc dự án
+
+```
+web-shop-hoa/
+├── src/                    # React frontend
+│   ├── components/         # Header, Footer
+│   ├── pages/              # Home, Products, Services, Contact, Gallery
+│   ├── context/            # SettingsContext
+│   ├── styles/             # CSS files
+│   └── api.js              # API helper
+├── backend/                # NestJS backend
+│   ├── src/
+│   │   ├── auth/           # JWT auth, login, change password
+│   │   ├── products/       # CRUD sản phẩm
+│   │   ├── categories/     # CRUD danh mục
+│   │   ├── reviews/        # Đánh giá
+│   │   ├── settings/       # Cài đặt shop
+│   │   ├── gallery/        # Thư viện ảnh
+│   │   ├── upload/         # Upload & convert ảnh
+│   │   └── main.ts         # Entry point
+│   └── public/admin/       # Admin panel HTML
+├── docs/screenshots/       # Screenshots
+├── nginx/                  # Nginx config
+├── deploy.sh               # Deploy script
+├── ecosystem.config.js     # PM2 config
+└── docker-compose.yml      # Database
+```
+
+---
+
+## 📡 API Endpoints
+
+| Method | Endpoint | Auth | Mô tả |
+|--------|----------|------|-------|
+| GET | `/api/products` | ❌ | Danh sách sản phẩm |
+| GET | `/api/products/:id` | ❌ | Chi tiết sản phẩm |
+| POST | `/api/products` | ✅ | Tạo sản phẩm |
+| PATCH | `/api/products/:id` | ✅ | Cập nhật sản phẩm |
+| DELETE | `/api/products/:id` | ✅ | Xóa sản phẩm |
+| GET | `/api/categories` | ❌ | Danh sách danh mục |
+| GET | `/api/settings` | ❌ | Cài đặt shop (public) |
+| PUT | `/api/settings` | ✅ | Cập nhật cài đặt |
+| GET | `/api/reviews?productId=` | ❌ | Đánh giá theo sản phẩm |
+| POST | `/api/reviews` | ❌ | Tạo đánh giá |
+| POST | `/api/auth/login` | ❌ | Đăng nhập admin |
+| PUT | `/api/auth/change-password` | ✅ | Đổi mật khẩu |
+| POST | `/api/upload` | ✅ | Upload ảnh |
+| GET | `/api/gallery` | ❌ | Thư viện ảnh |
+
+---
+
+## 📝 License
+
+MIT © BloomStore Team
