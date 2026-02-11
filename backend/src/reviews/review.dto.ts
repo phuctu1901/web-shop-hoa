@@ -23,5 +23,6 @@ export class CreateReviewDto {
     @ApiPropertyOptional({ example: 'Hoa rất đẹp, giao hàng nhanh!' })
     @IsOptional()
     @IsString()
+    @MaxLength(2000)
     comment?: string;
 }

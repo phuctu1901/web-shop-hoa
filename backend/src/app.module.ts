@@ -20,7 +20,7 @@ import { GalleryModule } from './gallery/gallery.module';
       password: process.env.DB_PASS || 'bloomstore_pass',
       database: process.env.DB_NAME || 'bloomstore',
       autoLoadEntities: true,
-      synchronize: true, // Dev only — creates tables automatically
+      synchronize: process.env.NODE_ENV !== 'production',
       charset: 'utf8mb4',
     }),
     ServeStaticModule.forRoot(

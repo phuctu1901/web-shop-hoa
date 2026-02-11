@@ -49,7 +49,7 @@ export class UploadController {
                 },
             }),
             fileFilter: (_req, file, cb) => {
-                const allowed = /\.(jpg|jpeg|png|gif|webp|bmp|tiff|svg)$/i;
+                const allowed = /\.(jpg|jpeg|png|gif|webp|bmp|tiff)$/i;
                 if (!allowed.test(path.extname(file.originalname))) {
                     return cb(new BadRequestException('Only image files are allowed'), false);
                 }
