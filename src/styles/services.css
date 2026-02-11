@@ -11,13 +11,95 @@
     overflow: hidden;
 }
 
+/* Dark overlay to improve text readability over background */
+.services-hero .hero-background::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.services-hero>.container,
+.services-hero>.scroll-down-indicator {
+    position: relative;
+    z-index: 2;
+}
+
+/* Fix breadcrumb & hero text readability */
+.services-hero .page-title {
+    color: white !important;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.services-hero .page-subtitle {
+    color: white !important;
+    opacity: 1 !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.25) !important;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.services-hero .stat-number {
+    color: white !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.services-hero .stat-label {
+    color: rgba(255, 255, 255, 0.95) !important;
+    opacity: 1 !important;
+    font-weight: 500;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.services-hero .breadcrumb {
+    color: white !important;
+    font-weight: 600;
+    font-size: 1rem;
+    background: rgba(0, 0, 0, 0.25);
+    display: inline-flex;
+    padding: 8px 20px;
+    border-radius: 30px;
+    backdrop-filter: blur(8px);
+}
+
+.services-hero .breadcrumb a {
+    color: white !important;
+    opacity: 1 !important;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.services-hero .breadcrumb a:hover {
+    opacity: 1 !important;
+    text-decoration: underline;
+}
+
+.services-hero .breadcrumb i {
+    opacity: 1 !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.services-hero .breadcrumb span {
+    color: white !important;
+    font-weight: 700;
+}
+
+.services-hero .services-badge {
+    background: rgba(255, 255, 255, 0.25) !important;
+    color: white;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .hero-background {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
+    background:
         radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
@@ -43,12 +125,41 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.floating-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
-.floating-icon:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
-.floating-icon:nth-child(3) { top: 60%; left: 5%; animation-delay: 2s; }
-.floating-icon:nth-child(4) { bottom: 20%; right: 20%; animation-delay: 3s; }
-.floating-icon:nth-child(5) { bottom: 10%; left: 20%; animation-delay: 4s; }
-.floating-icon:nth-child(6) { top: 40%; right: 5%; animation-delay: 5s; }
+.floating-icon:nth-child(1) {
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.floating-icon:nth-child(2) {
+    top: 20%;
+    right: 15%;
+    animation-delay: 1s;
+}
+
+.floating-icon:nth-child(3) {
+    top: 60%;
+    left: 5%;
+    animation-delay: 2s;
+}
+
+.floating-icon:nth-child(4) {
+    bottom: 20%;
+    right: 20%;
+    animation-delay: 3s;
+}
+
+.floating-icon:nth-child(5) {
+    bottom: 10%;
+    left: 20%;
+    animation-delay: 4s;
+}
+
+.floating-icon:nth-child(6) {
+    top: 40%;
+    right: 5%;
+    animation-delay: 5s;
+}
 
 .floating-icon i {
     font-size: 24px;
@@ -56,8 +167,15 @@
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
 }
 
 .services-badge {
@@ -127,8 +245,15 @@
 }
 
 @keyframes bounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(10px); }
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(10px);
+    }
 }
 
 /* Enhanced Service Cards */
@@ -208,7 +333,7 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
     transform: rotate(45deg) translateY(-100%);
     transition: transform 0.6s;
 }
@@ -388,8 +513,13 @@
     animation: slideUp 0.8s ease forwards;
 }
 
-.animate-slide-up:nth-child(2) { animation-delay: 0.2s; }
-.animate-slide-up:nth-child(3) { animation-delay: 0.4s; }
+.animate-slide-up:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.animate-slide-up:nth-child(3) {
+    animation-delay: 0.4s;
+}
 
 @keyframes slideUp {
     to {
@@ -524,7 +654,7 @@
     .comparison-table {
         overflow-x: auto;
     }
-    
+
     .table-header,
     .table-row {
         min-width: 600px;
@@ -536,33 +666,33 @@
         min-height: 60vh;
         padding: 40px 0;
     }
-    
+
     .services-stats {
         gap: 20px;
     }
-    
+
     .stat-number {
         font-size: 24px;
     }
-    
+
     .services-grid {
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    
+
     .service-card {
         padding: 30px 20px;
     }
-    
+
     .service-cta {
         flex-direction: column;
     }
-    
+
     .testimonials-slider {
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    
+
     .floating-services {
         display: none;
     }
@@ -572,7 +702,7 @@
     .service-card.featured {
         transform: none;
     }
-    
+
     .services-stats {
         flex-direction: column;
         gap: 15px;
@@ -724,29 +854,29 @@
     .why-choose-us {
         padding: 60px 0;
     }
-    
+
     .reasons-grid {
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    
+
     .reason-card {
         padding: 30px 20px;
     }
-    
+
     .process-section {
         padding: 60px 0;
     }
-    
+
     .process-timeline {
         grid-template-columns: 1fr;
         gap: 30px;
     }
-    
+
     .process-step {
         padding: 50px 20px 30px;
     }
-    
+
     .step-number {
         left: 50%;
         transform: translateX(-50%);

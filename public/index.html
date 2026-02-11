@@ -1,16 +1,131 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloomStore - Premium Flowers</title>
+
+    <!-- SEO Basic -->
+    <title>BloomStore - Hoa Tươi Cao Cấp | Giao Hàng Toàn Quốc</title>
+    <meta name="description"
+        content="BloomStore - Cửa hàng hoa tươi cao cấp. Đa dạng hoa cưới, hoa sinh nhật, hoa kỷ niệm, hoa chúc mừng. Thiết kế độc đáo, giao hàng nhanh toàn quốc.">
+    <meta name="keywords"
+        content="hoa tươi, hoa cưới, hoa sinh nhật, hoa kỷ niệm, hoa chúc mừng, giao hoa, shop hoa, bloomstore">
+    <meta name="author" content="BloomStore">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="/">
+    <meta property="og:title" content="BloomStore - Hoa Tươi Cao Cấp">
+    <meta property="og:description"
+        content="Cửa hàng hoa tươi cao cấp. Đa dạng hoa cưới, hoa sinh nhật, hoa kỷ niệm. Giao hàng nhanh toàn quốc.">
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:site_name" content="BloomStore">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="BloomStore - Hoa Tươi Cao Cấp">
+    <meta name="twitter:description"
+        content="Cửa hàng hoa tươi cao cấp. Đa dạng hoa cưới, hoa sinh nhật, hoa kỷ niệm. Giao hàng nhanh toàn quốc.">
+
+    <!-- Favicon (dynamic, updated by JS) -->
+    <link rel="icon" type="image/x-icon" id="dynamic-favicon">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" id="structured-data">
+    {
+      "@context": "https://schema.org",
+      "@type": "FloristShop",
+      "name": "BloomStore",
+      "description": "Cửa hàng hoa tươi cao cấp",
+      "url": "/",
+      "telephone": "0123 456 789",
+      "email": "hello@bloomstore.vn",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "123 Nguyễn Huệ, Quận 1",
+        "addressLocality": "TP. Hồ Chí Minh",
+        "addressCountry": "VN"
+      },
+      "priceRange": "₫₫",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "08:00",
+        "closes": "21:00"
+      },
+      "sameAs": []
+    }
+    </script>
 </head>
+
 <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+
+    <!-- Load dynamic settings from backend API -->
+    <script>
+        (async function loadSiteSettings() {
+            try {
+                const res = await fetch('/api/settings');
+                if (!res.ok) return;
+                const s = await res.json();
+
+                // Store globally for React components
+                window.__SITE_SETTINGS__ = s;
+
+                // Update document title
+                if (s.meta_title) document.title = s.meta_title;
+
+                // Update meta tags
+                const updateMeta = (attr, val, content) => {
+                    const el = document.querySelector(`meta[${attr}="${val}"]`);
+                    if (el && content) el.setAttribute('content', content);
+                };
+                updateMeta('name', 'description', s.meta_description);
+                updateMeta('name', 'keywords', s.meta_keywords);
+                updateMeta('name', 'author', s.shop_name);
+                updateMeta('property', 'og:title', s.meta_title || s.shop_name);
+                updateMeta('property', 'og:description', s.meta_description);
+                updateMeta('property', 'og:site_name', s.shop_name);
+                updateMeta('name', 'twitter:title', s.meta_title || s.shop_name);
+                updateMeta('name', 'twitter:description', s.meta_description);
+
+                // OG Image
+                if (s.og_image) {
+                    updateMeta('property', 'og:image', s.og_image);
+                    updateMeta('name', 'twitter:image', s.og_image);
+                }
+
+                // Favicon
+                if (s.favicon_url) {
+                    document.getElementById('dynamic-favicon').href = s.favicon_url;
+                }
+
+                // Update JSON-LD structured data
+                const ld = JSON.parse(document.getElementById('structured-data').textContent);
+                if (s.shop_name) ld.name = s.shop_name;
+                if (s.meta_description) ld.description = s.meta_description;
+                if (s.phone) ld.telephone = s.phone;
+                if (s.email) ld.email = s.email;
+                if (s.address) ld.address.streetAddress = s.address;
+                if (s.logo_url) ld.logo = s.logo_url;
+                const social = [s.facebook_url, s.instagram_url, s.zalo_url].filter(Boolean);
+                if (social.length) ld.sameAs = social;
+                document.getElementById('structured-data').textContent = JSON.stringify(ld);
+            } catch (e) { /* silently fail — defaults are in HTML */ }
+        })();
+    </script>
 </body>
+
 </html>

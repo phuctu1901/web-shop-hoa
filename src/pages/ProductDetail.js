@@ -1,221 +1,76 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useSettings } from '../context/SettingsContext';
+import api from '../api';
 import '../styles/product-detail.css';
 
 const ProductDetail = () => {
-  const { id } = useParams();
+  const { id, slug } = useParams();
+  const [product, setProduct] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState('description');
   const [showFullGallery, setShowFullGallery] = useState(false);
+  const { settings } = useSettings();
 
-  // Product data
-  const products = {
-    1: {
-      id: 1,
-      name: 'Bó hoa cưới Romantic',
-      category: 'wedding',
-      price: 1200000,
-      originalPrice: 1500000,
-      shortDescription: 'Hoa hồng trắng và baby breath tinh tế',
-      longDescription: 'Bó hoa cưới Romantic là tác phẩm nghệ thuật được chế tác từ những bông hoa hồng trắng Ecuador cao cấp, kết hợp cùng baby breath tạo nên vẻ đẹp tinh khôi, lãng mạn. Mỗi bông hoa được tuyển chọn kỹ lưỡng, đảm bảo độ tươi mới và chất lượng hoàn hảo cho ngày trọng đại của bạn.',
-      images: [
-        'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1594736797933-d0282ba6205c?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1487070183336-b863922373d4?w=800&h=800&fit=crop'
-      ],
-      rating: 5,
-      reviews: 24,
-      badge: 'Bán chạy',
-      features: [
-        '25 hoa hồng trắng Ecuador cao cấp',
-        '15 cành baby breath tươi mới',
-        'Giấy gói lụa cao cấp màu trắng',
-        'Ribbon satin sang trọng',
-        'Thiết kế bởi florist chuyên nghiệp',
-        'Bảo quản tươi 10-14 ngày'
-      ],
-      specifications: {
-        'Kích thước': '35cm x 45cm',
-        'Chiều cao': '50-55cm',
-        'Trọng lượng': '1.2kg',
-        'Số lượng hoa': '40 bông',
-        'Nguồn gốc': 'Ecuador, New Zealand',
-        'Thời gian bảo quản': '10-14 ngày',
-        'Phù hợp': 'Đám cưới, lễ đính hôn'
-      },
-      careInstructions: [
-        'Cắt thân hoa xiên 2-3cm trong nước chảy',
-        'Thay nước mỗi 2 ngày, rửa sạch bình',
-        'Thêm 1 thìa đường hoặc dung dịch dưỡng hoa',
-        'Đặt nơi mát mẻ, tránh ánh nắng trực tiếp',
-        'Bỏ lá héo và hoa tàn để giữ tươi lâu'
-      ],
-      ingredients: [
-        'Hoa hồng trắng Ecuador: 25 bông',
-        'Baby breath: 15 cành',
-        'Lá eucalyptus: 10 cành',
-        'Giấy gói lụa cao cấp',
-        'Ribbon satin trắng'
-      ],
-      occasions: ['Đám cưới', 'Lễ đính hôn', 'Kỷ niệm ngày cưới', 'Chụp ảnh cưới'],
-      deliveryInfo: {
-        freeShipping: 500000,
-        expressDelivery: '2-4 giờ',
-        standardDelivery: '1-2 ngày',
-        areas: 'TP.HCM, Hà Nội, Đà Nẵng'
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    setActiveImageIndex(0);
+    setActiveTab('description');
+    window.scrollTo(0, 0);
+
+    const fetchProduct = slug
+      ? api.getProductBySlug(slug)
+      : api.getProduct(id);
+
+    fetchProduct
+      .then(data => {
+        setProduct(data);
+
+        // Fetch reviews for this product
+        api.getReviews(data.id)
+          .then(reviewData => {
+            const items = Array.isArray(reviewData) ? reviewData : (reviewData.data || []);
+            setReviews(items);
+          })
+          .catch(() => setReviews([]));
+
+        // Fetch related products (same category)
+        if (data.categoryId) {
+          api.getProducts({ category: data.categoryId })
+            .then(allProducts => {
+              const items = Array.isArray(allProducts) ? allProducts : (allProducts.data || []);
+              setRelatedProducts(items.filter(p => p.id !== data.id).slice(0, 3));
+            })
+            .catch(() => setRelatedProducts([]));
+        }
+      })
+      .catch(err => {
+        console.error('Failed to load product:', err);
+        setError('Không tìm thấy sản phẩm');
+      })
+      .finally(() => setLoading(false));
+  }, [id, slug]);
+
+  // SEO meta tags
+  useEffect(() => {
+    if (product) {
+      document.title = (product.metaTitle || product.name) + ` - ${settings.shop_name || ''}`;
+
+      // Update meta description
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        metaDesc.setAttribute('content', product.metaDescription || product.shortDescription || '');
       }
-    },
-    2: {
-      id: 2,
-      name: 'Bó hoa cưới Vintage',
-      category: 'wedding',
-      price: 1400000,
-      originalPrice: null,
-      shortDescription: 'Hoa hồng champagne và eucalyptus',
-      longDescription: 'Bộ sưu tập Vintage mang phong cách cổ điển, thanh lịch với tông màu champagne ấm áp. Sự kết hợp hoàn hảo giữa hoa hồng champagne và lá eucalyptus tạo nên vẻ đẹp vintage đầy quyến rũ.',
-      images: [
-        'https://images.unsplash.com/photo-1594736797933-d0282ba6205c?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=800&fit=crop'
-      ],
-      rating: 4,
-      reviews: 18,
-      features: [
-        '20 hoa hồng champagne Ecuador',
-        '12 cành eucalyptus tươi',
-        'Giấy kraft vintage',
-        'Ribbon jute tự nhiên',
-        'Phong cách vintage classic'
-      ],
-      specifications: {
-        'Kích thước': '32cm x 40cm',
-        'Chiều cao': '45-50cm',
-        'Số lượng hoa': '32 bông',
-        'Phong cách': 'Vintage, cổ điển',
-        'Màu sắc': 'Champagne, nâu nhạt'
-      },
-      careInstructions: [
-        'Xịt nước nhẹ lên lá eucalyptus',
-        'Thay nước 2 ngày/lần',
-        'Giữ ở nơi thoáng mát',
-        'Tránh tiếp xúc ánh nắng mạnh'
-      ],
-      occasions: ['Đám cưới vintage', 'Tiệc garden party', 'Chụp ảnh pre-wedding']
-    },
-    3: {
-      id: 3,
-      name: 'Bó hoa sinh nhật rực rỡ',
-      category: 'birthday',
-      price: 800000,
-      shortDescription: 'Hoa hướng dương và hoa hồng cam',
-      longDescription: 'Bó hoa sinh nhật tràn đầy năng lượng với sự kết hợp rực rỡ giữa hoa hướng dương và hoa hồng cam.',
-      images: [
-        'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1487070183336-b863922373d4?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&h=800&fit=crop'
-      ],
-      rating: 4,
-      reviews: 15,
-      features: [
-        '6 hoa hướng dương tươi',
-        '12 hoa hồng cam Ecuador',
-        'Lá xanh trang trí',
-        'Giấy gói màu sắc rực rỡ',
-        'Ribbon màu cam'
-      ],
-      occasions: ['Sinh nhật', 'Chúc mừng', 'Động viên']
-    },
-    4: {
-      id: 4,
-      name: 'Hộp hoa kỷ niệm',
-      category: 'anniversary',
-      price: 1800000,
-      shortDescription: 'Hoa hồng đỏ trong hộp sang trọng',
-      longDescription: 'Hộp hoa kỷ niệm cao cấp với thiết kế sang trọng, chứa đựng những bông hoa hồng đỏ Ecuador chọn lọc.',
-      images: [
-        'https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&h=800&fit=crop'
-      ],
-      rating: 5,
-      reviews: 31,
-      badge: 'Mới',
-      occasions: ['Kỷ niệm', 'Valentine', 'Cầu hôn']
-    },
-    5: {
-      id: 5,
-      name: 'Bó hoa chia buồn',
-      category: 'sympathy',
-      price: 650000,
-      shortDescription: 'Hoa lily trắng và lá dương xỉ',
-      longDescription: 'Bó hoa chia buồn được thiết kế trang nghiêm với hoa lily trắng tinh khôi.',
-      images: [
-        'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=800&fit=crop'
-      ],
-      rating: 5,
-      reviews: 12,
-      occasions: ['Chia buồn', 'Tưởng nhớ']
-    },
-    6: {
-      id: 6,
-      name: 'Bó hoa quà tặng',
-      category: 'gift',
-      price: 750000,
-      shortDescription: 'Cẩm tú cầu xanh dương tươi mát',
-      longDescription: 'Bó hoa quà tặng với cẩm tú cầu xanh dương tươi mát.',
-      images: [
-        'https://images.unsplash.com/photo-1487070183336-b863922373d4?w=800&h=800&fit=crop'
-      ],
-      rating: 4,
-      reviews: 20,
-      occasions: ['Quà tặng', 'Trang trí nhà']
     }
-  };
-
-  const product = products[id] || products[1];
-
-  const sampleReviews = [
-    {
-      id: 1,
-      name: 'Nguyễn Thị Mai',
-      rating: 5,
-      date: '20/01/2026',
-      comment: 'Hoa đẹp tuyệt vời! Giao hàng đúng hẹn và chất lượng vượt ngoài mong đợi. Cô dâu rất thích!',
-      verified: true,
-      helpful: 12
-    },
-    {
-      id: 2,
-      name: 'Trần Văn Hùng',
-      rating: 5,
-      date: '18/01/2026',
-      comment: 'Dịch vụ tuyệt vời, florist tư vấn nhiệt tình. Bó hoa đẹp như trong ảnh.',
-      verified: true,
-      helpful: 8
-    },
-    {
-      id: 3,
-      name: 'Lê Thị Hương',
-      rating: 4,
-      date: '15/01/2026',
-      comment: 'Hoa đẹp, thiết kế sang trọng. Giá hơi cao nhưng chất lượng xứng đáng.',
-      verified: false,
-      helpful: 5
-    }
-  ];
-
-  const relatedProducts = Object.values(products).filter(p =>
-    p.category === product.category && p.id !== product.id
-  ).slice(0, 3);
-
-  const categoryLabels = {
-    wedding: 'Cưới hỏi',
-    birthday: 'Sinh nhật',
-    anniversary: 'Kỷ niệm',
-    sympathy: 'Chia buồn',
-    gift: 'Quà tặng'
-  };
+    return () => {
+      document.title = `${settings.shop_name || ''} - ${settings.slogan || ''}`;
+    };
+  }, [product, settings]);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -225,24 +80,63 @@ const ProductDetail = () => {
   };
 
   const calculateDiscount = () => {
-    if (!product.originalPrice) return 0;
+    if (!product?.originalPrice) return 0;
     return Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
   };
 
   const renderStars = (rating) => {
     return [...Array(5)].map((_, i) => (
-      <i key={i} className={i < rating ? 'fas fa-star' : 'far fa-star'}></i>
+      <i key={i} className={i < Math.round(rating) ? 'fas fa-star' : 'far fa-star'}></i>
     ));
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    setActiveImageIndex(0);
-    setActiveTab('description');
-  }, [id]);
+  const getImages = () => {
+    if (!product) return [];
+    if (product.images && product.images.length > 0) {
+      return product.images.map(img => ({
+        url: api.imageUrl(img.url),
+        alt: img.altText || product.name
+      }));
+    }
+    return [{ url: 'https://via.placeholder.com/800x800?text=No+Image', alt: product.name }];
+  };
 
-  const zaloLink = `https://zalo.me/0987654321`;
-  const phoneNumber = '0987654321';
+  const zaloLink = settings.zalo_url || '#';
+  const phoneNumber = settings.phone || '';
+
+  if (loading) {
+    return (
+      <div className="pd-page" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center', color: '#999' }}>
+          <i className="fas fa-spinner fa-spin" style={{ fontSize: '2.5rem', marginBottom: '1rem', display: 'block' }}></i>
+          Đang tải sản phẩm...
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <div className="pd-page" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center', color: '#999' }}>
+          <i className="fas fa-exclamation-triangle" style={{ fontSize: '3rem', marginBottom: '1rem', display: 'block', color: '#e74c3c' }}></i>
+          <h2>{error || 'Không tìm thấy sản phẩm'}</h2>
+          <Link to="/products" className="pd-btn-primary" style={{ marginTop: '1rem', display: 'inline-block' }}>
+            <i className="fas fa-arrow-left"></i> Quay lại sản phẩm
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const images = getImages();
+  const categoryName = product.category?.name || 'Khác';
+  const features = product.longDescription
+    ? product.longDescription.split('\n').filter(line => line.startsWith('-') || line.startsWith('•')).map(line => line.replace(/^[-•]\s*/, ''))
+    : [];
+  const occasions = product.occasions
+    ? (typeof product.occasions === 'string' ? product.occasions.split(',').map(s => s.trim()) : product.occasions)
+    : [];
 
   return (
     <div className="pd-page">
@@ -255,8 +149,8 @@ const ProductDetail = () => {
             <i className="fas fa-chevron-right"></i>
             <Link to="/products">Sản phẩm</Link>
             <i className="fas fa-chevron-right"></i>
-            <Link to={`/products?category=${product.category}`}>
-              {categoryLabels[product.category] || 'Khác'}
+            <Link to={`/products?category=${product.categoryId}`}>
+              {categoryName}
             </Link>
             <i className="fas fa-chevron-right"></i>
             <span>{product.name}</span>
@@ -273,8 +167,8 @@ const ProductDetail = () => {
             <div className="pd-gallery">
               <div className="pd-gallery-main">
                 <img
-                  src={product.images[activeImageIndex]}
-                  alt={product.name}
+                  src={images[activeImageIndex]?.url}
+                  alt={images[activeImageIndex]?.alt}
                   loading="eager"
                   onClick={() => setShowFullGallery(true)}
                 />
@@ -286,12 +180,12 @@ const ProductDetail = () => {
                   <span className="pd-badge pd-badge--sale">-{calculateDiscount()}%</span>
                 )}
 
-                {product.images.length > 1 && (
+                {images.length > 1 && (
                   <>
                     <button
                       className="pd-gallery-nav pd-gallery-nav--prev"
                       onClick={() => setActiveImageIndex((prev) =>
-                        prev === 0 ? product.images.length - 1 : prev - 1
+                        prev === 0 ? images.length - 1 : prev - 1
                       )}
                     >
                       <i className="fas fa-chevron-left"></i>
@@ -299,7 +193,7 @@ const ProductDetail = () => {
                     <button
                       className="pd-gallery-nav pd-gallery-nav--next"
                       onClick={() => setActiveImageIndex((prev) =>
-                        (prev + 1) % product.images.length
+                        (prev + 1) % images.length
                       )}
                     >
                       <i className="fas fa-chevron-right"></i>
@@ -315,15 +209,15 @@ const ProductDetail = () => {
                 </button>
               </div>
 
-              {product.images.length > 1 && (
+              {images.length > 1 && (
                 <div className="pd-thumbs">
-                  {product.images.map((image, index) => (
+                  {images.map((image, index) => (
                     <button
                       key={index}
                       className={`pd-thumb ${activeImageIndex === index ? 'pd-thumb--active' : ''}`}
                       onClick={() => setActiveImageIndex(index)}
                     >
-                      <img src={image} alt={`${product.name} ${index + 1}`} />
+                      <img src={image.url} alt={image.alt} />
                     </button>
                   ))}
                 </div>
@@ -335,8 +229,8 @@ const ProductDetail = () => {
 
               {/* Category + Badge */}
               <div className="pd-info-top">
-                <Link to={`/products?category=${product.category}`} className="pd-category">
-                  {categoryLabels[product.category] || 'Khác'}
+                <Link to={`/products?category=${product.categoryId}`} className="pd-category">
+                  {categoryName}
                 </Link>
                 {product.badge && (
                   <span className="pd-status-badge">
@@ -351,13 +245,13 @@ const ProductDetail = () => {
               {/* Rating */}
               <div className="pd-rating">
                 <div className="pd-stars">
-                  {renderStars(product.rating)}
+                  {renderStars(product.averageRating || 0)}
                 </div>
                 <span className="pd-rating-text">
-                  {product.rating}/5
+                  {(product.averageRating || 0).toFixed(1)}/5
                 </span>
                 <span className="pd-rating-count">
-                  ({product.reviews} đánh giá)
+                  ({product.reviewCount || reviews.length} đánh giá)
                 </span>
               </div>
 
@@ -378,11 +272,11 @@ const ProductDetail = () => {
               <p className="pd-short-desc">{product.shortDescription}</p>
 
               {/* Key Features */}
-              {product.features && (
+              {features.length > 0 && (
                 <div className="pd-features">
                   <h3 className="pd-features-title">Đặc điểm nổi bật</h3>
                   <ul className="pd-features-list">
-                    {product.features.map((feature, index) => (
+                    {features.map((feature, index) => (
                       <li key={index}>
                         <i className="fas fa-check"></i>
                         <span>{feature}</span>
@@ -393,11 +287,11 @@ const ProductDetail = () => {
               )}
 
               {/* Occasions */}
-              {product.occasions && (
+              {occasions.length > 0 && (
                 <div className="pd-occasions">
                   <h3 className="pd-occasions-title">Phù hợp cho dịp</h3>
                   <div className="pd-occasion-tags">
-                    {product.occasions.map((occasion, index) => (
+                    {occasions.map((occasion, index) => (
                       <span key={index} className="pd-occasion-tag">{occasion}</span>
                     ))}
                   </div>
@@ -442,7 +336,7 @@ const ProductDetail = () => {
                     </div>
                     <div className="pd-cta-btn-text">
                       <strong>Gọi ngay</strong>
-                      <small>0987.654.321</small>
+                      <small>{phoneNumber}</small>
                     </div>
                   </a>
                 </div>
@@ -523,43 +417,13 @@ const ProductDetail = () => {
                 <span>Mô tả</span>
               </button>
 
-              {product.specifications && (
-                <button
-                  className={`pd-tab ${activeTab === 'specifications' ? 'pd-tab--active' : ''}`}
-                  onClick={() => setActiveTab('specifications')}
-                >
-                  <i className="fas fa-list-alt"></i>
-                  <span>Thông số</span>
-                </button>
-              )}
-
-              {product.careInstructions && (
-                <button
-                  className={`pd-tab ${activeTab === 'care' ? 'pd-tab--active' : ''}`}
-                  onClick={() => setActiveTab('care')}
-                >
-                  <i className="fas fa-leaf"></i>
-                  <span>Chăm sóc</span>
-                </button>
-              )}
-
               <button
                 className={`pd-tab ${activeTab === 'reviews' ? 'pd-tab--active' : ''}`}
                 onClick={() => setActiveTab('reviews')}
               >
                 <i className="fas fa-star"></i>
-                <span>Đánh giá ({sampleReviews.length})</span>
+                <span>Đánh giá ({reviews.length})</span>
               </button>
-
-              {product.deliveryInfo && (
-                <button
-                  className={`pd-tab ${activeTab === 'delivery' ? 'pd-tab--active' : ''}`}
-                  onClick={() => setActiveTab('delivery')}
-                >
-                  <i className="fas fa-truck"></i>
-                  <span>Giao hàng</span>
-                </button>
-              )}
             </div>
 
             <div className="pd-tabs-content">
@@ -568,13 +432,15 @@ const ProductDetail = () => {
               {activeTab === 'description' && (
                 <div className="pd-panel">
                   <h3>Mô tả sản phẩm</h3>
-                  <p className="pd-panel-desc">{product.longDescription}</p>
+                  <div className="pd-panel-desc" style={{ whiteSpace: 'pre-line' }}>
+                    {product.longDescription || product.shortDescription}
+                  </div>
 
-                  {product.features && (
+                  {features.length > 0 && (
                     <div className="pd-panel-features">
                       <h4>Đặc điểm nổi bật</h4>
                       <div className="pd-panel-features-grid">
-                        {product.features.map((feature, index) => (
+                        {features.map((feature, index) => (
                           <div key={index} className="pd-panel-feature-item">
                             <i className="fas fa-check-circle"></i>
                             <span>{feature}</span>
@@ -584,11 +450,11 @@ const ProductDetail = () => {
                     </div>
                   )}
 
-                  {product.occasions && (
+                  {occasions.length > 0 && (
                     <div className="pd-panel-occasions">
                       <h4>Phù hợp cho dịp</h4>
                       <div className="pd-panel-occasion-tags">
-                        {product.occasions.map((occasion, index) => (
+                        {occasions.map((occasion, index) => (
                           <span key={index} className="pd-panel-occasion-tag">{occasion}</span>
                         ))}
                       </div>
@@ -597,149 +463,61 @@ const ProductDetail = () => {
                 </div>
               )}
 
-              {/* Specifications */}
-              {activeTab === 'specifications' && product.specifications && (
-                <div className="pd-panel">
-                  <h3>Thông số kỹ thuật</h3>
-                  <div className="pd-specs-table">
-                    {Object.entries(product.specifications).map(([key, value]) => (
-                      <div key={key} className="pd-spec-row">
-                        <span className="pd-spec-label">{key}</span>
-                        <span className="pd-spec-value">{value}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Care Instructions */}
-              {activeTab === 'care' && product.careInstructions && (
-                <div className="pd-panel">
-                  <h3>Hướng dẫn chăm sóc hoa</h3>
-                  <p className="pd-panel-desc">Để hoa giữ được vẻ tươi đẹp lâu nhất, vui lòng làm theo hướng dẫn sau:</p>
-
-                  <div className="pd-care-steps">
-                    {product.careInstructions.map((instruction, index) => (
-                      <div key={index} className="pd-care-step">
-                        <div className="pd-care-step-num">{index + 1}</div>
-                        <p>{instruction}</p>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="pd-care-tips">
-                    <div className="pd-care-tip">
-                      <i className="fas fa-lightbulb"></i>
-                      <div>
-                        <strong>Mẹo hay:</strong>
-                        <p>Thêm 1 viên aspirin hoặc 1 thìa đường vào nước để hoa tươi lâu hơn.</p>
-                      </div>
-                    </div>
-                    <div className="pd-care-tip">
-                      <i className="fas fa-thermometer-half"></i>
-                      <div>
-                        <strong>Nhiệt độ lý tưởng:</strong>
-                        <p>Giữ hoa ở 18-22°C để đạt hiệu quả tốt nhất.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
               {/* Reviews */}
               {activeTab === 'reviews' && (
                 <div className="pd-panel">
                   <div className="pd-reviews-summary">
                     <div className="pd-reviews-score">
-                      <span className="pd-reviews-number">{product.rating}</span>
+                      <span className="pd-reviews-number">{(product.averageRating || 0).toFixed(1)}</span>
                       <div className="pd-reviews-stars">
-                        {renderStars(product.rating)}
+                        {renderStars(product.averageRating || 0)}
                       </div>
-                      <span className="pd-reviews-count">{product.reviews} đánh giá</span>
+                      <span className="pd-reviews-count">{reviews.length} đánh giá</span>
                     </div>
 
                     <div className="pd-reviews-bars">
-                      {[5, 4, 3, 2, 1].map(star => (
-                        <div key={star} className="pd-review-bar">
-                          <span>{star} <i className="fas fa-star"></i></span>
-                          <div className="pd-review-bar-track">
-                            <div
-                              className="pd-review-bar-fill"
-                              style={{ width: star <= product.rating ? '85%' : '8%' }}
-                            ></div>
+                      {[5, 4, 3, 2, 1].map(star => {
+                        const count = reviews.filter(r => r.rating === star).length;
+                        const pct = reviews.length > 0 ? (count / reviews.length * 100) : 0;
+                        return (
+                          <div key={star} className="pd-review-bar">
+                            <span>{star} <i className="fas fa-star"></i></span>
+                            <div className="pd-review-bar-track">
+                              <div
+                                className="pd-review-bar-fill"
+                                style={{ width: `${pct}%` }}
+                              ></div>
+                            </div>
+                            <span className="pd-review-bar-count">{count}</span>
                           </div>
-                          <span className="pd-review-bar-count">
-                            {star <= product.rating ? Math.floor(product.reviews * 0.8) : Math.floor(product.reviews * 0.05)}
-                          </span>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
 
                   <div className="pd-reviews-list">
-                    {sampleReviews.map(review => (
+                    {reviews.length === 0 && (
+                      <p style={{ textAlign: 'center', color: '#999', padding: '2rem' }}>
+                        Chưa có đánh giá nào cho sản phẩm này.
+                      </p>
+                    )}
+                    {reviews.map(review => (
                       <div key={review.id} className="pd-review-card">
                         <div className="pd-review-header">
                           <div className="pd-review-avatar">
-                            {review.name.charAt(0)}
+                            {review.customerName ? review.customerName.charAt(0) : '?'}
                           </div>
                           <div className="pd-review-meta">
-                            <h4>{review.name}</h4>
+                            <h4>{review.customerName || 'Khách hàng'}</h4>
                             <div className="pd-review-info">
                               <div className="pd-review-stars">{renderStars(review.rating)}</div>
-                              <span>{review.date}</span>
-                              {review.verified && (
-                                <span className="pd-verified">
-                                  <i className="fas fa-check-circle"></i> Đã mua
-                                </span>
-                              )}
+                              <span>{new Date(review.createdAt).toLocaleDateString('vi-VN')}</span>
                             </div>
                           </div>
                         </div>
                         <p className="pd-review-text">{review.comment}</p>
-                        <button className="pd-review-helpful">
-                          <i className="far fa-thumbs-up"></i> Hữu ích ({review.helpful})
-                        </button>
                       </div>
                     ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Delivery */}
-              {activeTab === 'delivery' && product.deliveryInfo && (
-                <div className="pd-panel">
-                  <h3>Thông tin giao hàng</h3>
-
-                  <div className="pd-delivery-options">
-                    <div className="pd-delivery-option">
-                      <div className="pd-delivery-icon">
-                        <i className="fas fa-shipping-fast"></i>
-                      </div>
-                      <div>
-                        <h4>Express</h4>
-                        <p>Nhận hàng trong {product.deliveryInfo.expressDelivery}</p>
-                        <span className="pd-delivery-price">50.000đ</span>
-                      </div>
-                    </div>
-                    <div className="pd-delivery-option">
-                      <div className="pd-delivery-icon">
-                        <i className="fas fa-truck"></i>
-                      </div>
-                      <div>
-                        <h4>Tiêu chuẩn</h4>
-                        <p>Nhận hàng trong {product.deliveryInfo.standardDelivery}</p>
-                        <span className="pd-delivery-price pd-delivery-price--free">
-                          {product.price >= product.deliveryInfo.freeShipping ? 'Miễn phí' : '30.000đ'}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pd-delivery-areas">
-                    <h4>Khu vực giao hàng</h4>
-                    <p>Hiện tại giao hàng tại: <strong>{product.deliveryInfo.areas}</strong></p>
-                    <p><strong>Miễn phí giao hàng</strong> cho đơn từ {formatPrice(product.deliveryInfo.freeShipping)} trở lên.</p>
                   </div>
                 </div>
               )}
@@ -754,33 +532,39 @@ const ProductDetail = () => {
           <div className="pd-container">
             <div className="pd-section-header">
               <h2>Sản phẩm tương tự</h2>
-              <p>Có thể bạn quan tâm trong danh mục <strong>{categoryLabels[product.category]}</strong></p>
+              <p>Có thể bạn quan tâm trong danh mục <strong>{categoryName}</strong></p>
             </div>
 
             <div className="pd-related-grid">
-              {relatedProducts.map(rp => (
-                <Link key={rp.id} to={`/products/${rp.id}`} className="pd-related-card">
-                  <div className="pd-related-img">
-                    <img src={rp.images[0]} alt={rp.name} loading="lazy" />
-                    <div className="pd-related-overlay">
-                      <span>Xem chi tiết <i className="fas fa-arrow-right"></i></span>
+              {relatedProducts.map(rp => {
+                const rpImg = rp.images && rp.images.length > 0
+                  ? api.imageUrl(rp.images[0].url)
+                  : 'https://via.placeholder.com/400';
+                const rpAlt = rp.images?.[0]?.altText || rp.name;
+                return (
+                  <Link key={rp.id} to={rp.slug ? `/san-pham/${rp.slug}` : `/products/${rp.id}`} className="pd-related-card">
+                    <div className="pd-related-img">
+                      <img src={rpImg} alt={rpAlt} loading="lazy" />
+                      <div className="pd-related-overlay">
+                        <span>Xem chi tiết <i className="fas fa-arrow-right"></i></span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="pd-related-body">
-                    <h3>{rp.name}</h3>
-                    <div className="pd-related-stars">
-                      {renderStars(rp.rating)}
-                      <span>({rp.reviews})</span>
+                    <div className="pd-related-body">
+                      <h3>{rp.name}</h3>
+                      <div className="pd-related-stars">
+                        {renderStars(rp.averageRating || 0)}
+                        <span>({rp.reviewCount || 0})</span>
+                      </div>
+                      <div className="pd-related-price">
+                        <span className="pd-price">{formatPrice(rp.price)}</span>
+                        {rp.originalPrice && (
+                          <span className="pd-price-old">{formatPrice(rp.originalPrice)}</span>
+                        )}
+                      </div>
                     </div>
-                    <div className="pd-related-price">
-                      <span className="pd-price">{formatPrice(rp.price)}</span>
-                      {rp.originalPrice && (
-                        <span className="pd-price-old">{formatPrice(rp.originalPrice)}</span>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
 
             <div className="pd-related-actions">
@@ -804,29 +588,23 @@ const ProductDetail = () => {
         </a>
       </div>
 
-      {/* ====== FULLSCREEN GALLERY MODAL ====== */}
+      {/* Full gallery modal */}
       {showFullGallery && (
         <div className="pd-modal" onClick={() => setShowFullGallery(false)}>
-          <div className="pd-modal-content" onClick={e => e.stopPropagation()}>
+          <div className="pd-modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="pd-modal-close" onClick={() => setShowFullGallery(false)}>
               <i className="fas fa-times"></i>
             </button>
-
-            <div className="pd-modal-img">
-              <img src={product.images[activeImageIndex]} alt={product.name} />
-            </div>
-
-            {product.images.length > 1 && (
-              <div className="pd-modal-thumbs">
-                {product.images.map((image, index) => (
-                  <button
-                    key={index}
-                    className={`pd-modal-thumb ${activeImageIndex === index ? 'pd-modal-thumb--active' : ''}`}
-                    onClick={() => setActiveImageIndex(index)}
-                  >
-                    <img src={image} alt={`${product.name} ${index + 1}`} />
-                  </button>
-                ))}
+            <img src={images[activeImageIndex]?.url} alt={images[activeImageIndex]?.alt} />
+            {images.length > 1 && (
+              <div className="pd-modal-nav">
+                <button onClick={() => setActiveImageIndex(prev => prev === 0 ? images.length - 1 : prev - 1)}>
+                  <i className="fas fa-chevron-left"></i>
+                </button>
+                <span>{activeImageIndex + 1} / {images.length}</span>
+                <button onClick={() => setActiveImageIndex(prev => (prev + 1) % images.length)}>
+                  <i className="fas fa-chevron-right"></i>
+                </button>
               </div>
             )}
           </div>

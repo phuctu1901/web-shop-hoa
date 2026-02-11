@@ -1,7 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSettings } from '../context/SettingsContext';
+import api from '../api';
 
 const Home = () => {
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const { settings } = useSettings();
+
+  useEffect(() => {
+    // Fetch featured products from API
+    api.getProducts()
+      .then(data => {
+        const items = Array.isArray(data) ? data : (data.data || data.items || []);
+        // Take first 3 as featured
+        setFeaturedProducts(items.slice(0, 3));
+      })
+      .catch(err => {
+        console.error('Failed to load featured products:', err);
+      });
+  }, []);
+
   useEffect(() => {
     // Hero animations
     const heroElements = document.querySelectorAll('.animate-hero');
@@ -52,6 +70,27 @@ const Home = () => {
       }, 20);
     });
   };
+
+  const getProductImage = (product) => {
+    if (product.images && product.images.length > 0) {
+      return api.imageUrl(product.images[0].url);
+    }
+    return 'https://via.placeholder.com/400x400?text=No+Image';
+  };
+
+  const getProductAlt = (product) => {
+    if (product.images && product.images.length > 0 && product.images[0].altText) {
+      return product.images[0].altText;
+    }
+    return product.name;
+  };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('vi-VN').format(price) + 'đ';
+  };
+
+  const zaloLink = settings.zalo_url || '#';
+  const phoneNumber = settings.phone || '';
 
   return (
     <>
@@ -130,7 +169,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Products Preview */}
+      {/* Featured Products Preview — from API */}
       <section className="featured-preview">
         <div className="container">
           <div className="section-header">
@@ -142,56 +181,27 @@ const Home = () => {
           </div>
 
           <div className="products-grid">
-            <div className="product-card">
-              <div className="product-image">
-                <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=400&h=400&fit=crop" alt="Hoa cưới romantic" />
-                <div className="product-overlay">
-                  <Link to="/products/1" className="btn-quick-view">Xem chi tiết</Link>
-                  <a href="https://zalo.me/bloomstore" className="btn-contact">Liên hệ đặt hàng</a>
+            {featuredProducts.map(product => (
+              <div key={product.id} className="product-card">
+                <div className="product-image">
+                  <img src={getProductImage(product)} alt={getProductAlt(product)} loading="lazy" />
+                  <div className="product-overlay">
+                    <Link to={product.slug ? `/san-pham/${product.slug}` : `/products/${product.id}`} className="btn-quick-view">Xem chi tiết</Link>
+                    <a href={zaloLink} className="btn-contact" target="_blank" rel="noopener noreferrer">Liên hệ đặt hàng</a>
+                  </div>
+                  {product.badge && <span className="product-badge">{product.badge}</span>}
                 </div>
-                <span className="product-badge">Bán chạy</span>
-              </div>
-              <div className="product-info">
-                <h3 className="product-name">Bó hoa cưới Romantic</h3>
-                <div className="product-price">
-                  <span className="price-current">1.200.000đ</span>
-                  <span className="price-original">1.500.000đ</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="product-card">
-              <div className="product-image">
-                <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=400&fit=crop" alt="Hoa sinh nhật" />
-                <div className="product-overlay">
-                  <Link to="/products/2" className="btn-quick-view">Xem chi tiết</Link>
-                  <a href="https://zalo.me/bloomstore" className="btn-contact">Liên hệ đặt hàng</a>
+                <div className="product-info">
+                  <h3 className="product-name">{product.name}</h3>
+                  <div className="product-price">
+                    <span className="price-current">{formatPrice(product.price)}</span>
+                    {product.originalPrice && (
+                      <span className="price-original">{formatPrice(product.originalPrice)}</span>
+                    )}
+                  </div>
                 </div>
               </div>
-              <div className="product-info">
-                <h3 className="product-name">Bó hoa sinh nhật rực rỡ</h3>
-                <div className="product-price">
-                  <span className="price-current">800.000đ</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="product-card">
-              <div className="product-image">
-                <img src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=400&h=400&fit=crop" alt="Hoa kỷ niệm" />
-                <div className="product-overlay">
-                  <Link to="/products/3" className="btn-quick-view">Xem chi tiết</Link>
-                  <a href="https://zalo.me/bloomstore" className="btn-contact">Liên hệ đặt hàng</a>
-                </div>
-                <span className="product-badge new">Mới</span>
-              </div>
-              <div className="product-info">
-                <h3 className="product-name">Hộp hoa kỷ niệm</h3>
-                <div className="product-price">
-                  <span className="price-current">1.800.000đ</span>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="section-actions">
@@ -265,10 +275,10 @@ const Home = () => {
         <div className="container">
           <div className="about-content">
             <div className="about-text">
-              <span className="section-subtitle">Về BloomStore</span>
+              <span className="section-subtitle">Về {settings.shop_name || ''}</span>
               <h2 className="section-title">Hành trình tạo nên những khoảnh khắc đẹp</h2>
               <p className="about-description">
-                Với hơn 10 năm kinh nghiệm trong ngành hoa tươi, BloomStore tự hào mang đến
+                Với hơn 10 năm kinh nghiệm trong ngành hoa tươi, {settings.shop_name || ''} tự hào mang đến
                 những sản phẩm hoa cao cấp và dịch vụ chuyên nghiệp nhất. Chúng tôi hiểu rằng
                 mỗi bông hoa đều chứa đựng một thông điệp riêng, và sứ mệnh của chúng tôi là
                 giúp bạn truyền tải những cảm xúc đó một cách hoàn hảo nhất.
@@ -289,7 +299,7 @@ const Home = () => {
               </div>
             </div>
             <div className="about-image">
-              <img src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=600&h=600&fit=crop" alt="Về BloomStore" />
+              <img src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=600&h=600&fit=crop" alt={`Về ${settings.shop_name || ''}`} />
               <div className="about-badge">
                 <span className="badge-number">10+</span>
                 <span className="badge-text">Năm kinh nghiệm</span>
@@ -318,7 +328,7 @@ const Home = () => {
               </div>
               <p className="testimonial-text">
                 "Dịch vụ tuyệt vời! Hoa được giao đúng giờ và còn đẹp hơn cả trong hình.
-                Chắc chắn sẽ quay lại BloomStore cho những dịp đặc biệt khác."
+                Chắc chắn sẽ quay lại {settings.shop_name || ''} cho những dịp đặc biệt khác."
               </p>
               <div className="testimonial-author">
                 <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=60&h=60&fit=crop&crop=face" alt="Nguyễn Minh Anh" />
@@ -338,7 +348,7 @@ const Home = () => {
                 <i className="fas fa-star"></i>
               </div>
               <p className="testimonial-text">
-                "BloomStore đã trang trí đám cưới của tôi thật tuyệt vời. Mọi chi tiết đều
+                "{settings.shop_name || ''} đã trang trí đám cưới của tôi thật tuyệt vời. Mọi chi tiết đều
                 hoàn hảo và đội ngũ rất chuyên nghiệp. Cảm ơn các bạn rất nhiều!"
               </p>
               <div className="testimonial-author">
@@ -381,11 +391,11 @@ const Home = () => {
             <h2>Sẵn sàng tạo nên khoảnh khắc đặc biệt?</h2>
             <p>Liên hệ với chúng tôi ngay hôm nay để được tư vấn miễn phí</p>
             <div className="cta-actions">
-              <a href="tel:+84987654321" className="btn btn-primary">
+              <a href={`tel:${phoneNumber}`} className="btn btn-primary">
                 <i className="fas fa-phone"></i>
-                Gọi ngay: 098 765 4321
+                Gọi ngay: {phoneNumber}
               </a>
-              <a href="https://zalo.me/bloomstore" className="btn btn-outline">
+              <a href={zaloLink} className="btn btn-outline" target="_blank" rel="noopener noreferrer">
                 <i className="fas fa-comments"></i>
                 Chat Zalo
               </a>

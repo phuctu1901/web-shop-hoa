@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSettings } from '../context/SettingsContext';
 import '../styles/services.css';
 
 const Services = () => {
+  const { settings } = useSettings();
+  const phone = settings.phone || '';
   const services = [
     {
       id: 1,
@@ -149,7 +152,7 @@ const Services = () => {
               Chúng tôi cung cấp đa dạng dịch vụ để đáp ứng mọi nhu cầu của khách hàng
             </p>
           </div>
-          
+
           <div className="services-grid">
             {services.map(service => (
               <div key={service.id} className={`service-card ${service.featured ? 'featured' : ''}`}>
@@ -187,7 +190,7 @@ const Services = () => {
         <div className="container">
           <div className="section-header">
             <span className="section-subtitle">Tại sao chọn chúng tôi</span>
-            <h2 className="section-title">Những lý do nên chọn BloomStore</h2>
+            <h2 className="section-title">Những lý do nên chọn {settings.shop_name || ''}</h2>
           </div>
 
           <div className="reasons-grid">
@@ -277,11 +280,11 @@ const Services = () => {
             <h2>Bạn cần tư vấn thêm về dịch vụ?</h2>
             <p>Đội ngũ chuyên gia của chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7</p>
             <div className="cta-actions">
-              <a href="tel:+84901234567" className="btn btn-primary">
+              <a href={`tel:${phone.replace(/\s/g, '')}`} className="btn btn-primary">
                 <i className="fas fa-phone"></i>
-                Gọi ngay: 090 123 4567
+                Gọi ngay: {phone}
               </a>
-              <a href="https://zalo.me/bloomstore" className="btn btn-outline">
+              <a href={settings.zalo_url || '#'} className="btn btn-outline" target="_blank" rel="noopener noreferrer">
                 <i className="fas fa-comments"></i>
                 Chat Zalo
               </a>

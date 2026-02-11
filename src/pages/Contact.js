@@ -1,307 +1,254 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSettings } from '../context/SettingsContext';
 import '../styles/contact.css';
 
 const Contact = () => {
-  const [stats, setStats] = useState({
-    responseTime: 0,
-    satisfaction: 0
+  const { settings } = useSettings();
+  const [formData, setFormData] = useState({
+    name: '', email: '', phone: '', subject: '', message: ''
   });
+  const [formStatus, setFormStatus] = useState(null); // null | 'sending' | 'sent' | 'error'
 
-  useEffect(() => {
-    // Initialize animations and stats
-    const timer = setTimeout(() => {
-      setStats({
-        responseTime: 2,
-        satisfaction: 99.9
-      });
-    }, 1000);
-
-    // FAQ functionality
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-      const question = item.querySelector('.faq-question');
-      if (question) {
-        question.addEventListener('click', () => toggleFAQ(item));
-      }
-    });
-
-    return () => {
-      clearTimeout(timer);
-      faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        if (question) {
-          question.removeEventListener('click', () => toggleFAQ(item));
-        }
-      });
-    };
-  }, []);
-
-  const toggleFAQ = (item) => {
-    const answer = item.querySelector('.faq-answer');
-    const icon = item.querySelector('.faq-question i');
-    const isActive = item.classList.contains('active');
-
-    // Close all other FAQ items
-    document.querySelectorAll('.faq-item').forEach(otherItem => {
-      if (otherItem !== item) {
-        otherItem.classList.remove('active');
-        const otherAnswer = otherItem.querySelector('.faq-answer');
-        const otherIcon = otherItem.querySelector('.faq-question i');
-        if (otherAnswer) otherAnswer.style.maxHeight = '0';
-        if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
-      }
-    });
-
-    // Toggle current item
-    if (isActive) {
-      item.classList.remove('active');
-      answer.style.maxHeight = '0';
-      icon.style.transform = 'rotate(0deg)';
-    } else {
-      item.classList.add('active');
-      answer.style.maxHeight = answer.scrollHeight + 'px';
-      icon.style.transform = 'rotate(45deg)';
-    }
+  const handleChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const breadcrumb = [
-    { text: 'Trang chủ', link: '/' },
-    { text: 'Liên hệ' }
-  ];
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormStatus('sending');
+    // Simulate form submission
+    setTimeout(() => {
+      setFormStatus('sent');
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+      setTimeout(() => setFormStatus(null), 4000);
+    }, 1500);
+  };
+
+  const shopName = settings.shop_name || '';
+  const phone = settings.phone || '';
+  const email = settings.email || '';
+  const address = settings.address || '';
 
   return (
     <>
-      {/* Contact Hero */}
-      <section className="contact-hero">
-        <div className="hero-background">
-          <div className="floating-contacts">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="floating-icon" style={{animationDelay: `${i * 1.2}s`}}>
-                <i className={`fas fa-${['phone', 'envelope', 'map-marker-alt', 'comments', 'headset'][i]}`}></i>
-              </div>
-            ))}
-          </div>
+      {/* Hero Section */}
+      <section className="contact-hero-v2">
+        <div className="contact-hero-bg">
+          <div className="hero-gradient-overlay"></div>
+          <div className="hero-pattern"></div>
         </div>
         <div className="container">
-          <div className="hero-content">
-            <div className="contact-badge">
-              <i className="fas fa-headset"></i>
-              <span>Hỗ trợ 24/7 - Tư vấn miễn phí</span>
-            </div>
-            <h1 className="hero-title">Liên hệ với chúng tôi</h1>
-            <p className="hero-subtitle">
-              Chúng tôi luôn sẵn sàng lắng nghe và mang đến những giải pháp tốt nhất cho bạn
-            </p>
-            
-            <div className="hero-stats">
-              <div className="stat-item">
-                <div className="stat-number">{stats.responseTime} phút</div>
-                <div className="stat-label">Phản hồi trung bình</div>
-              </div>
-              <div className="stat-item">
-                <div className="stat-number">24/7</div>
-                <div className="stat-label">Hỗ trợ liên tục</div>
-              </div>
-              <div className="stat-item">
-                <div className="stat-number">{stats.satisfaction}%</div>
-                <div className="stat-label">Khách hài lòng</div>
-              </div>
-            </div>
-            
-            <nav className="breadcrumb">
-              {breadcrumb.map((item, index) => (
-                <React.Fragment key={index}>
-                  {item.link ? (
-                    <Link to={item.link}>{item.text}</Link>
-                  ) : (
-                    <span>{item.text}</span>
-                  )}
-                  {index < breadcrumb.length - 1 && (
-                    <i className="fas fa-chevron-right"></i>
-                  )}
-                </React.Fragment>
-              ))}
+          <div className="contact-hero-inner">
+            <nav className="breadcrumb-nav">
+              <Link to="/">Trang chủ</Link>
+              <span className="breadcrumb-sep">›</span>
+              <span className="breadcrumb-current">Liên hệ</span>
             </nav>
+            <h1 className="contact-hero-title">
+              Kết nối với <span className="text-gradient">{shopName}</span>
+            </h1>
+            <p className="contact-hero-desc">
+              Chúng tôi luôn sẵn sàng lắng nghe và mang đến giải pháp hoa tươi hoàn hảo cho bạn
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Contact Info */}
-      <section className="contact-info">
+      {/* Contact Cards Strip */}
+      <section className="contact-cards-strip">
         <div className="container">
-          <div className="section-header">
-            <span className="section-subtitle">Thông tin liên hệ</span>
-            <h2 className="section-title">Nhiều cách để kết nối với chúng tôi</h2>
-          </div>
-          
-          <div className="contact-grid">
-            <div className="contact-card featured">
-              <div className="card-badge">Phổ biến</div>
-              <div className="contact-icon">
-                <i className="fas fa-phone"></i>
-                <div className="icon-bg"></div>
+          <div className="cards-row">
+            <a href={`tel:${phone.replace(/\s/g, '')}`} className="mini-card">
+              <div className="mini-card-icon phone-icon">
+                <i className="fas fa-phone-alt"></i>
               </div>
-              <h3 className="contact-title">Gọi điện thoại</h3>
-              <div className="contact-details">
-                <a href="tel:+84987654321" className="contact-link primary">+84 98 765 4321</a>
-                <a href="tel:+842812345678" className="contact-link">028 1234 5678</a>
-                <div className="contact-badge">
-                  <i className="fas fa-clock"></i>
-                  <span>Hỗ trợ 24/7</span>
-                </div>
+              <div className="mini-card-info">
+                <h4>Hotline</h4>
+                <p>{phone}</p>
               </div>
-              <div className="contact-action">
-                <a href="tel:+84987654321" className="btn btn-primary">
-                  <i className="fas fa-phone"></i> Gọi ngay
-                </a>
-              </div>
-            </div>
+              <i className="fas fa-arrow-right mini-card-arrow"></i>
+            </a>
 
-            <div className="contact-card">
-              <div className="contact-icon">
-                <i className="fas fa-comments"></i>
-                <div className="icon-bg"></div>
-              </div>
-              <h3 className="contact-title">Chat trực tiếp</h3>
-              <div className="contact-details">
-                <div className="social-links">
-                  <a href="https://zalo.me/bloomstore" className="social-link zalo">
-                    <i className="fas fa-comments"></i>
-                    <span>Zalo Official</span>
-                  </a>
-                  <a href="https://facebook.com/bloomstore" className="social-link facebook">
-                    <i className="fab fa-facebook-messenger"></i>
-                    <span>Facebook Messenger</span>
-                  </a>
-                </div>
-                <div className="contact-badge">
-                  <i className="fas fa-bolt"></i>
-                  <span>Phản hồi tức thì</span>
-                </div>
-              </div>
-              <div className="contact-action">
-                <a href="https://zalo.me/bloomstore" className="btn btn-outline">
-                  <i className="fas fa-comments"></i> Chat Zalo
-                </a>
-              </div>
-            </div>
-
-            <div className="contact-card">
-              <div className="contact-icon">
+            <a href={`mailto:${email}`} className="mini-card">
+              <div className="mini-card-icon email-icon">
                 <i className="fas fa-envelope"></i>
-                <div className="icon-bg"></div>
               </div>
-              <h3 className="contact-title">Email chúng tôi</h3>
-              <div className="contact-details">
-                <a href="mailto:hello@bloomstore.vn" className="contact-link primary">hello@bloomstore.vn</a>
-                <a href="mailto:support@bloomstore.vn" className="contact-link">support@bloomstore.vn</a>
-                <div className="contact-badge">
-                  <i className="fas fa-reply"></i>
-                  <span>Phản hồi trong 2 giờ</span>
-                </div>
+              <div className="mini-card-info">
+                <h4>Email</h4>
+                <p>{email}</p>
               </div>
-              <div className="contact-action">
-                <a href="mailto:hello@bloomstore.vn" className="btn btn-outline">
-                  <i className="fas fa-envelope"></i> Gửi email
-                </a>
-              </div>
-            </div>
+              <i className="fas fa-arrow-right mini-card-arrow"></i>
+            </a>
 
-            <div className="contact-card">
-              <div className="contact-icon">
+            <a href={settings.zalo_url || '#'} className="mini-card" target="_blank" rel="noopener noreferrer">
+              <div className="mini-card-icon zalo-icon">
+                <i className="fas fa-comments"></i>
+              </div>
+              <div className="mini-card-info">
+                <h4>Zalo Chat</h4>
+                <p>Phản hồi tức thì</p>
+              </div>
+              <i className="fas fa-arrow-right mini-card-arrow"></i>
+            </a>
+
+            <div className="mini-card">
+              <div className="mini-card-icon location-icon">
                 <i className="fas fa-map-marker-alt"></i>
-                <div className="icon-bg"></div>
               </div>
-              <h3 className="contact-title">Ghé thăm showroom</h3>
-              <div className="contact-details">
-                <p className="address">123 Nguyễn Huệ, Quận 1<br/>TP. Hồ Chí Minh</p>
-                <div className="contact-badge">
-                  <i className="fas fa-clock"></i>
-                  <span>8:00 - 22:00 hàng ngày</span>
-                </div>
-              </div>
-              <div className="contact-action">
-                <a href="https://maps.google.com/?q=123+Nguyen+Hue+District+1" className="btn btn-outline">
-                  <i className="fas fa-directions"></i> Chỉ đường
-                </a>
+              <div className="mini-card-info">
+                <h4>Showroom</h4>
+                <p>{address}</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Quick Contact */}
-      <section className="quick-contact">
+      {/* Main Content: Form + Contact Info */}
+      <section className="contact-main">
         <div className="container">
-          <div className="quick-contact-grid">
-            <div className="quick-contact-content">
-              <span className="section-subtitle">Liên hệ nhanh</span>
-              <h2 className="section-title">Cần hỗ trợ tư vấn?</h2>
-              <p className="section-description">
-                Đội ngũ tư vấn viên chuyên nghiệp của chúng tôi luôn sẵn sàng hỗ trợ bạn 
-                chọn lựa hoa phù hợp nhất cho mọi dịp đặc biệt.
-              </p>
-              
-              <div className="quick-contact-methods">
-                <a href="tel:+84987654321" className="contact-method">
-                  <div className="method-icon">
-                    <i className="fas fa-phone"></i>
-                  </div>
-                  <div className="method-info">
-                    <h4>Gọi điện ngay</h4>
-                    <p>+84 98 765 4321</p>
-                  </div>
-                </a>
-
-                <a href="https://zalo.me/bloomstore" className="contact-method">
-                  <div className="method-icon">
-                    <i className="fas fa-comments"></i>
-                  </div>
-                  <div className="method-info">
-                    <h4>Chat qua Zalo</h4>
-                    <p>Phản hồi tức thì</p>
-                  </div>
-                </a>
-
-                <a href="https://facebook.com/bloomstore" className="contact-method">
-                  <div className="method-icon">
-                    <i className="fab fa-facebook-messenger"></i>
-                  </div>
-                  <div className="method-info">
-                    <h4>Nhắn tin Facebook</h4>
-                    <p>Hỗ trợ 24/7</p>
-                  </div>
-                </a>
+          <div className="contact-main-grid">
+            {/* LEFT: Contact Form */}
+            <div className="contact-form-wrapper">
+              <div className="form-header">
+                <span className="form-label">Gửi tin nhắn</span>
+                <h2>Chúng tôi sẽ phản hồi trong <strong>2 giờ</strong></h2>
+                <p>Điền thông tin bên dưới và đội ngũ tư vấn sẽ liên hệ bạn sớm nhất.</p>
               </div>
 
-              <div className="contact-stats">
-                <div className="stat-item">
-                  <div className="stat-number">2 phút</div>
-                  <div className="stat-label">Thời gian phản hồi</div>
+              <form className="contact-form" onSubmit={handleSubmit}>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="name">Họ và tên <span className="required">*</span></label>
+                    <input
+                      type="text" id="name" name="name"
+                      placeholder="Nguyễn Văn A"
+                      value={formData.name} onChange={handleChange} required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email">Email <span className="required">*</span></label>
+                    <input
+                      type="email" id="email" name="email"
+                      placeholder="email@example.com"
+                      value={formData.email} onChange={handleChange} required
+                    />
+                  </div>
                 </div>
-                <div className="stat-item">
-                  <div className="stat-number">99%</div>
-                  <div className="stat-label">Khách hàng hài lòng</div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="phone">Số điện thoại</label>
+                    <input
+                      type="tel" id="phone" name="phone"
+                      placeholder="0912 345 678"
+                      value={formData.phone} onChange={handleChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="subject">Chủ đề</label>
+                    <select id="subject" name="subject" value={formData.subject} onChange={handleChange}>
+                      <option value="">Chọn chủ đề</option>
+                      <option value="order">Đặt hoa</option>
+                      <option value="custom">Thiết kế theo yêu cầu</option>
+                      <option value="event">Trang trí sự kiện</option>
+                      <option value="delivery">Giao hàng</option>
+                      <option value="other">Khác</option>
+                    </select>
+                  </div>
                 </div>
-                <div className="stat-item">
-                  <div className="stat-number">24/7</div>
-                  <div className="stat-label">Hỗ trợ liên tục</div>
+                <div className="form-group full-width">
+                  <label htmlFor="message">Nội dung tin nhắn <span className="required">*</span></label>
+                  <textarea
+                    id="message" name="message" rows="5"
+                    placeholder="Mô tả yêu cầu của bạn..."
+                    value={formData.message} onChange={handleChange} required
+                  />
                 </div>
-              </div>
+                <button
+                  type="submit"
+                  className={`submit-btn ${formStatus === 'sending' ? 'loading' : ''} ${formStatus === 'sent' ? 'success' : ''}`}
+                  disabled={formStatus === 'sending'}
+                >
+                  {formStatus === 'sending' && (
+                    <><i className="fas fa-spinner fa-spin"></i> Đang gửi...</>
+                  )}
+                  {formStatus === 'sent' && (
+                    <><i className="fas fa-check"></i> Đã gửi thành công!</>
+                  )}
+                  {(!formStatus || formStatus === 'error') && (
+                    <><i className="fas fa-paper-plane"></i> Gửi tin nhắn</>
+                  )}
+                </button>
+              </form>
             </div>
 
-            <div className="quick-contact-image">
-              <img 
-                src="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?w=600&h=500&fit=crop&crop=center&auto=format&q=80" 
-                alt="Customer Service" 
-                loading="lazy"
-              />
-              <div className="contact-highlight">
-                <div className="highlight-content">
-                  <i className="fas fa-headset"></i>
-                  <h4>Tư vấn miễn phí</h4>
-                  <p>Đội ngũ chuyên gia sẵn sàng hỗ trợ</p>
+            {/* RIGHT: Info Sidebar */}
+            <div className="contact-sidebar">
+              <div className="sidebar-card hours-card">
+                <div className="sidebar-card-header">
+                  <i className="fas fa-clock"></i>
+                  <h3>Giờ làm việc</h3>
+                </div>
+                <ul className="hours-list">
+                  <li>
+                    <span>Thứ 2 — Thứ 6</span>
+                    <span className="hours-time">8:00 — 21:00</span>
+                  </li>
+                  <li>
+                    <span>Thứ 7 — Chủ nhật</span>
+                    <span className="hours-time">9:00 — 20:00</span>
+                  </li>
+                  <li>
+                    <span>Ngày lễ</span>
+                    <span className="hours-time">9:00 — 18:00</span>
+                  </li>
+                </ul>
+                <div className="open-status">
+                  <span className="status-dot"></span>
+                  Đang mở cửa
+                </div>
+              </div>
+
+              <div className="sidebar-card social-card">
+                <div className="sidebar-card-header">
+                  <i className="fas fa-share-alt"></i>
+                  <h3>Theo dõi chúng tôi</h3>
+                </div>
+                <div className="social-grid">
+                  <a href={settings.facebook_url || '#'} className="social-item facebook" target="_blank" rel="noopener noreferrer">
+                    <i className="fab fa-facebook-f"></i>
+                    <span>Facebook</span>
+                  </a>
+                  <a href={settings.instagram_url || '#'} className="social-item instagram" target="_blank" rel="noopener noreferrer">
+                    <i className="fab fa-instagram"></i>
+                    <span>Instagram</span>
+                  </a>
+                  <a href={settings.zalo_url || '#'} className="social-item zalo" target="_blank" rel="noopener noreferrer">
+                    <i className="fas fa-comments"></i>
+                    <span>Zalo</span>
+                  </a>
+                  <a href={`tel:${phone.replace(/\s/g, '')}`} className="social-item phone">
+                    <i className="fas fa-phone-alt"></i>
+                    <span>Gọi ngay</span>
+                  </a>
+                </div>
+              </div>
+
+              <div className="sidebar-card trust-card">
+                <div className="trust-items">
+                  <div className="trust-item">
+                    <div className="trust-icon"><i className="fas fa-shipping-fast"></i></div>
+                    <span>Giao hàng miễn phí nội thành</span>
+                  </div>
+                  <div className="trust-item">
+                    <div className="trust-icon"><i className="fas fa-shield-alt"></i></div>
+                    <span>Cam kết hoa tươi 100%</span>
+                  </div>
+                  <div className="trust-item">
+                    <div className="trust-icon"><i className="fas fa-undo"></i></div>
+                    <span>Đổi trả miễn phí trong 24h</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -310,76 +257,56 @@ const Contact = () => {
       </section>
 
       {/* Map Section */}
-      <section className="map-section">
+      <section className="contact-map-section">
         <div className="container">
-          <div className="section-header">
-            <span className="section-subtitle">Vị trí cửa hàng</span>
-            <h2 className="section-title">Ghé thăm showroom BloomStore</h2>
-            <p className="section-description">
-              Đến trực tiếp cửa hàng để trải nghiệm không gian hoa tươi và được tư vấn tận tình
-            </p>
+          <div className="map-header">
+            <span className="section-label">Vị trí cửa hàng</span>
+            <h2>Ghé thăm showroom <span className="text-gradient">{shopName}</span></h2>
           </div>
-
-          <div className="map-container">
-            <div className="map-embed">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4326648243056!2d106.69741731527314!3d10.775431892323178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1c06f4e1dd%3A0x43900f1d4539a3d!2sNguyen%20Hue%20Walking%20Street!5e0!3m2!1sen!2s!4v1640995200000!5m2!1sen!2s"
-                width="100%" 
-                height="400" 
-                style={{border:0}} 
-                allowFullScreen="" 
+          <div className="map-layout">
+            <div className="map-embed-wrapper">
+              <iframe
+                src={settings.google_map_url || ""}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
                 loading="lazy"
-                title="BloomStore Location"
+                title="Store Location"
               />
             </div>
-            
-            <div className="map-info">
-              <div className="store-info">
-                <h3>BloomStore Showroom</h3>
-                <div className="info-item">
-                  <i className="fas fa-map-marker-alt"></i>
-                  <p>123 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</p>
+            <div className="map-details">
+              <div className="map-detail-item">
+                <i className="fas fa-map-marker-alt"></i>
+                <div>
+                  <strong>Địa chỉ</strong>
+                  <p>{address}</p>
                 </div>
-                <div className="info-item">
-                  <i className="fas fa-clock"></i>
+              </div>
+              {settings.phone && (
+                <div className="map-detail-item">
+                  <i className="fas fa-phone-alt"></i>
                   <div>
-                    <p><strong>Thứ 2 - Chủ nhật:</strong> 8:00 - 22:00</p>
-                    <p><strong>Ngày lễ:</strong> 9:00 - 21:00</p>
+                    <strong>Hotline</strong>
+                    <p>{phone}</p>
                   </div>
                 </div>
-                <div className="info-item">
-                  <i className="fas fa-parking"></i>
-                  <p>Có bãi đậu xe miễn phí cho khách hàng</p>
+              )}
+              {settings.email && (
+                <div className="map-detail-item">
+                  <i className="fas fa-envelope"></i>
+                  <div>
+                    <strong>Email</strong>
+                    <p>{email}</p>
+                  </div>
                 </div>
-                <div className="info-item">
-                  <i className="fas fa-subway"></i>
-                  <p>Cách ga Metro Bến Thành 200m</p>
-                </div>
-                
-                <a href="https://maps.google.com/?q=123+Nguyen+Hue+District+1+Ho+Chi+Minh+City" 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   className="btn btn-primary">
-                  <i className="fas fa-directions"></i> Xem chỉ đường
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="contact-cta">
-        <div className="container">
-          <div className="cta-content">
-            <h2>Chưa tìm được thông tin bạn cần?</h2>
-            <p>Đừng ngần ngại liên hệ trực tiếp với chúng tôi. Đội ngũ hỗ trợ luôn sẵn sàng giải đáp mọi thắc mắc.</p>
-            <div className="cta-actions">
-              <a href="tel:+84987654321" className="btn btn-primary">
-                <i className="fas fa-phone"></i> Gọi ngay
-              </a>
-              <a href="https://zalo.me/bloomstore" className="btn btn-outline">
-                <i className="fas fa-comments"></i> Chat Zalo
+              )}
+              <a
+                href={`https://maps.google.com/?q=${encodeURIComponent(address)}`}
+                target="_blank" rel="noopener noreferrer"
+                className="directions-btn"
+              >
+                <i className="fas fa-directions"></i> Chỉ đường đến cửa hàng
               </a>
             </div>
           </div>

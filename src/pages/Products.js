@@ -1,105 +1,55 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useSettings } from '../context/SettingsContext';
 import PageHeader from '../components/PageHeader';
+import api from '../api';
 
 const Products = () => {
-  const [filter, setFilter] = useState('all');
+  const { settings } = useSettings();
+  const [searchParams] = useSearchParams();
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState(searchParams.get('category') || 'all');
   const [sortBy, setSortBy] = useState('default');
 
-  const products = [
-    {
-      id: 1,
-      name: 'Bó hoa cưới Romantic',
-      category: 'wedding',
-      price: 1200000,
-      originalPrice: 1500000,
-      image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=400&h=400&fit=crop',
-      description: 'Hoa hồng trắng và baby breath tinh tế',
-      rating: 5,
-      reviews: 24,
-      badge: 'Bán chạy'
-    },
-    {
-      id: 2,
-      name: 'Bó hoa cưới Vintage',
-      category: 'wedding',
-      price: 1400000,
-      image: 'https://images.unsplash.com/photo-1468327768560-75b778cbb551?w=400&h=400&fit=crop',
-      description: 'Hoa hồng champagne và eucalyptus',
-      rating: 4,
-      reviews: 18
-    },
-    {
-      id: 3,
-      name: 'Bó hoa sinh nhật rực rỡ',
-      category: 'birthday',
-      price: 800000,
-      image: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=400&fit=crop',
-      description: 'Hoa hướng dương và hoa hồng cam',
-      rating: 4,
-      reviews: 15
-    },
-    {
-      id: 4,
-      name: 'Hộp hoa kỷ niệm',
-      category: 'anniversary',
-      price: 1800000,
-      image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=400&h=400&fit=crop',
-      description: 'Hoa hồng đỏ trong hộp sang trọng',
-      rating: 5,
-      reviews: 31,
-      badge: 'Mới'
-    },
-    {
-      id: 5,
-      name: 'Bó hoa chia buồn',
-      category: 'sympathy',
-      price: 650000,
-      image: 'https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=400&h=400&fit=crop',
-      description: 'Hoa lily trắng và lá dương xỉ',
-      rating: 5,
-      reviews: 12
-    },
-    {
-      id: 6,
-      name: 'Bó hoa quà tặng',
-      category: 'gift',
-      price: 750000,
-      image: 'https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=400&h=400&fit=crop',
-      description: 'Cẩm tú cầu xanh dương tươi mát',
-      rating: 4,
-      reviews: 20
-    }
-  ];
+  // Fetch categories
+  useEffect(() => {
+    api.getCategories()
+      .then(data => {
+        // Use slug as filter key since backend filters by cat.slug
+        setCategories([{ slug: 'all', name: 'Tất cả' }, ...data]);
+      })
+      .catch(err => {
+        console.error('Failed to load categories:', err);
+        setCategories([{ slug: 'all', name: 'Tất cả' }]);
+      });
+  }, []);
 
-  const categories = [
-    { value: 'all', label: 'Tất cả' },
-    { value: 'wedding', label: 'Cưới hỏi' },
-    { value: 'birthday', label: 'Sinh nhật' },
-    { value: 'anniversary', label: 'Kỷ niệm' },
-    { value: 'sympathy', label: 'Chia buồn' },
-    { value: 'gift', label: 'Quà tặng' }
-  ];
+  // Fetch products (re-fetch when filter changes)
+  useEffect(() => {
+    setLoading(true);
+    const params = {};
+    if (filter !== 'all') params.category = filter;
+    if (sortBy !== 'default') params.sort = sortBy;
 
-  const filteredProducts = products.filter(product =>
-    filter === 'all' || product.category === filter
-  );
+    api.getProducts(params)
+      .then(data => {
+        const items = Array.isArray(data) ? data : (data.data || data.items || []);
+        setProducts(items);
+      })
+      .catch(err => {
+        console.error('Failed to load products:', err);
+        setProducts([]);
+      })
+      .finally(() => setLoading(false));
+  }, [filter, sortBy]);
 
-  // Sort products based on sortBy value
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch (sortBy) {
-      case 'price-low':
-        return a.price - b.price;
-      case 'price-high':
-        return b.price - a.price;
-      case 'newest':
-        return b.id - a.id; // Assuming higher ID = newer
-      case 'rating':
-        return b.rating - a.rating;
-      default:
-        return 0; // Keep original order
-    }
-  });
+  // Update filter from URL params
+  useEffect(() => {
+    const cat = searchParams.get('category');
+    if (cat) setFilter(cat);
+  }, [searchParams]);
 
   const renderStars = (rating) => {
     const stars = [];
@@ -107,12 +57,48 @@ const Products = () => {
       stars.push(
         <i
           key={i}
-          className={i <= rating ? 'fas fa-star' : 'far fa-star'}
+          className={i <= Math.round(rating) ? 'fas fa-star' : 'far fa-star'}
         ></i>
       );
     }
     return stars;
   };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('vi-VN').format(price) + 'đ';
+  };
+
+  // Get first image URL for a product
+  const getProductImage = (product) => {
+    if (product.images && product.images.length > 0) {
+      return api.imageUrl(product.images[0].url);
+    }
+    return 'https://via.placeholder.com/400x400?text=No+Image';
+  };
+
+  // Get first image alt text
+  const getProductAlt = (product) => {
+    if (product.images && product.images.length > 0 && product.images[0].altText) {
+      return product.images[0].altText;
+    }
+    return product.name;
+  };
+
+  // Client-side sort for sorted display
+  const sortedProducts = [...products].sort((a, b) => {
+    switch (sortBy) {
+      case 'price-low':
+        return a.price - b.price;
+      case 'price-high':
+        return b.price - a.price;
+      case 'newest':
+        return b.id - a.id;
+      case 'rating':
+        return (b.averageRating || 0) - (a.averageRating || 0);
+      default:
+        return 0;
+    }
+  });
 
   return (
     <>
@@ -136,11 +122,11 @@ const Products = () => {
               <div className="product-categories">
                 {categories.map(category => (
                   <button
-                    key={category.value}
-                    className={`category-btn ${filter === category.value ? 'active' : ''}`}
-                    onClick={() => setFilter(category.value)}
+                    key={category.slug}
+                    className={`category-btn ${filter === category.slug ? 'active' : ''}`}
+                    onClick={() => setFilter(category.slug)}
                   >
-                    {category.label}
+                    {category.name}
                   </button>
                 ))}
               </div>
@@ -162,37 +148,62 @@ const Products = () => {
             </div>
           </div>
 
+          {/* Loading state */}
+          {loading && (
+            <div style={{ textAlign: 'center', padding: '3rem', color: '#999' }}>
+              <i className="fas fa-spinner fa-spin" style={{ fontSize: '2rem', marginBottom: '1rem', display: 'block' }}></i>
+              Đang tải sản phẩm...
+            </div>
+          )}
+
+          {/* Empty state */}
+          {!loading && sortedProducts.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '3rem', color: '#999' }}>
+              <i className="fas fa-search" style={{ fontSize: '3rem', marginBottom: '1rem', display: 'block' }}></i>
+              <p>Không tìm thấy sản phẩm nào trong danh mục này</p>
+              <button className="btn btn-primary" onClick={() => setFilter('all')} style={{ marginTop: '1rem' }}>
+                Xem tất cả sản phẩm
+              </button>
+            </div>
+          )}
+
           {/* Products Grid */}
-          <div className="products-grid">
-            {sortedProducts.map(product => (
-              <div key={product.id} className="product-card" data-category={product.category}>
-                <div className="product-image">
-                  <img src={product.image} alt={product.name} />
-                  <div className="product-overlay">
-                    <Link to={`/products/${product.id}`} className="btn-quick-view">Xem chi tiết</Link>
-                    <a href="https://zalo.me/bloomstore" className="btn-contact">Liên hệ đặt hàng</a>
+          {!loading && (
+            <div className="products-grid">
+              {sortedProducts.map(product => (
+                <div key={product.id} className="product-card" data-category={product.category?.name}>
+                  <div className="product-image">
+                    <img
+                      src={getProductImage(product)}
+                      alt={getProductAlt(product)}
+                      loading="lazy"
+                    />
+                    <div className="product-overlay">
+                      <Link to={product.slug ? `/san-pham/${product.slug}` : `/products/${product.id}`} className="btn-quick-view">Xem chi tiết</Link>
+                      <a href={settings.zalo_url || 'https://zalo.me'} className="btn-contact" target="_blank" rel="noopener noreferrer">Liên hệ đặt hàng</a>
+                    </div>
+                    {product.badge && <span className="product-badge">{product.badge}</span>}
                   </div>
-                  {product.badge && <span className="product-badge">{product.badge}</span>}
+                  <div className="product-info">
+                    <Link to={product.slug ? `/san-pham/${product.slug}` : `/products/${product.id}`}>
+                      <h3 className="product-name">{product.name}</h3>
+                    </Link>
+                    <p className="product-description">{product.shortDescription}</p>
+                    <div className="product-rating">
+                      {renderStars(product.averageRating || 0)}
+                      <span>({product.reviewCount || 0} đánh giá)</span>
+                    </div>
+                    <div className="product-price">
+                      <span className="price-current">{formatPrice(product.price)}</span>
+                      {product.originalPrice && (
+                        <span className="price-original">{formatPrice(product.originalPrice)}</span>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <div className="product-info">
-                  <Link to={`/products/${product.id}`}>
-                    <h3 className="product-name">{product.name}</h3>
-                  </Link>
-                  <p className="product-description">{product.description}</p>
-                  <div className="product-rating">
-                    {renderStars(product.rating)}
-                    <span>({product.reviews} đánh giá)</span>
-                  </div>
-                  <div className="product-price">
-                    <span className="price-current">{product.price.toLocaleString('vi-VN')}đ</span>
-                    {product.originalPrice && (
-                      <span className="price-original">{product.originalPrice.toLocaleString('vi-VN')}đ</span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </>
