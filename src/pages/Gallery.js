@@ -7,6 +7,7 @@ import {
   faGift, faGlassCheers, faPalette, faLeaf,
 } from '@fortawesome/free-solid-svg-icons';
 import { apiFetch } from '../api';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 /* ────────────────────────────────
    Category meta (icon + label)
@@ -48,6 +49,7 @@ function getSpan(index) {
    Gallery Component
    ──────────────────────────────── */
 export default function Gallery() {
+  usePageTitle('Bộ sưu tập');
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeFilter, setActiveFilter] = useState('all');

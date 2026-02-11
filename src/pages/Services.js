@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSettings } from '../context/SettingsContext';
+import { usePageTitle } from '../hooks/usePageTitle';
 import '../styles/services.css';
 
 const Services = () => {
   const { settings } = useSettings();
+  usePageTitle('Dịch vụ');
   const phone = settings.phone || '';
   const services = [
     {

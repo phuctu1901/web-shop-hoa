@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSettings } from '../context/SettingsContext';
+import { usePageTitle } from '../hooks/usePageTitle';
 import api from '../api';
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const { settings } = useSettings();
+  usePageTitle(); // Home page — no page-specific title
 
   useEffect(() => {
     // Fetch featured products from API

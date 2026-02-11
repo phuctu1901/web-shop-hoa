@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSettings } from '../context/SettingsContext';
+import { usePageTitle } from '../hooks/usePageTitle';
 import '../styles/contact.css';
 
 const Contact = () => {
   const { settings } = useSettings();
+  usePageTitle('Liên hệ');
   const [formData, setFormData] = useState({
     name: '', email: '', phone: '', subject: '', message: ''
   });

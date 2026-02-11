@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useSettings } from '../context/SettingsContext';
+import { usePageTitle } from '../hooks/usePageTitle';
 import PageHeader from '../components/PageHeader';
 import api from '../api';
 
 const Products = () => {
   const { settings } = useSettings();
+  usePageTitle('Sản phẩm');
   const [searchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
